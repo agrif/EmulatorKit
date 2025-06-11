@@ -56,24 +56,24 @@ typedef signed short        offset_l;   /* long offset  */
 
 typedef union {
 #ifdef WORDS_BIGENDIAN
-    struct { byte   H,L; } B;
+	struct { byte   H,L; } B;
 #else
-    struct { byte   L,H; } B;
+	struct { byte   L,H; } B;
 #endif
-    word16  W;
+	word16  W;
 } dualw;
 
 /* Same as above but for addresses. */
 
 typedef union {
 #ifdef WORDS_BIGENDIAN
-    struct { byte   Z,B,H,L; } B;
-    struct { word16 H,L; } W;
+	struct { byte   Z,B,H,L; } B;
+	struct { word16 H,L; } W;
 #else
-    struct { byte   L,H,B,Z; } B;
-    struct { word16 L,H; } W;
+	struct { byte   L,H,B,Z; } B;
+	struct { word16 L,H; } W;
 #endif
-    word32  A;
+	word32  A;
 } duala;
 
 
@@ -99,13 +99,13 @@ extern byte     DB; /* Data Bank Register        */
 
 extern union {      /* Program Counter       */
 #ifdef WORDS_BIGENDIAN
-    struct { byte Z,PB,H,L; } B;
-    struct { word16 Z,PC; } W;
+	struct { byte Z,PB,H,L; } B;
+	struct { word16 Z,PC; } W;
 #else
-    struct { byte L,H,PB,Z; } B;
-    struct { word16 PC,Z; } W;
+	struct { byte L,H,PB,Z; } B;
+	struct { word16 PC,Z; } W;
 #endif
-    word32  A;
+	word32  A;
 } PC;
 
 #endif

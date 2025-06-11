@@ -39,8 +39,8 @@ extern int	cpu_update_period;
 
 /* This file contains all 260 of the opcode subroutines */
 
-BEGIN_CPU_FUNC(opcode_0x00)					/* BRK s */
-    PC.W.PC++;
+BEGIN_CPU_FUNC(opcode_0x00)				/* BRK s */
+	PC.W.PC++;
 #ifdef NATIVE_MODE
 	S_PUSH(PC.B.PB);
 	S_PUSH(PC.B.H);
@@ -70,8 +70,8 @@ BEGIN_CPU_FUNC(opcode_0x01)
 	C_ORA(opaddr);
 END_CPU_FUNC
 
-BEGIN_CPU_FUNC(opcode_0x02)					/* COP s */
-    PC.W.PC++;
+BEGIN_CPU_FUNC(opcode_0x02)				/* COP s */
+	PC.W.PC++;
 #ifdef NATIVE_MODE
 	S_PUSH(PC.B.PB);
 	S_PUSH(PC.B.H);
@@ -124,7 +124,7 @@ BEGIN_CPU_FUNC(opcode_0x08)
 #ifdef NATIVE_MODE
 	S_PUSH(P);					/* PHP s */
 #else
-    S_PUSH(P | 0x30);
+	S_PUSH(P | 0x30);
 #endif
 END_CPU_FUNC
 
@@ -313,9 +313,9 @@ BEGIN_CPU_FUNC(opcode_0x28)
 #ifdef NATIVE_MODE
 	S_PULL(P);					/* PLP s */
 #else
-    byte tmpP;
-    S_PULL(tmpP);
-    P = (tmpP & ~0x30) | (P & 0x30);
+	byte tmpP;
+	S_PULL(tmpP);
+	P = (tmpP & ~0x30) | (P & 0x30);
 #endif
 	CPU_modeSwitch();
 END_CPU_FUNC
@@ -1243,7 +1243,7 @@ BEGIN_CPU_FUNC(opcode_0xC2)
 #ifdef NATIVE_MODE
 	P &= ~operand.B.L;
 #else
-    P &= ~(operand.B.L & ~0x30);
+	P &= ~(operand.B.L & ~0x30);
 #endif
 	CPU_modeSwitch();
 END_CPU_FUNC
@@ -1434,7 +1434,7 @@ BEGIN_CPU_FUNC(opcode_0xE2)
 #ifdef NATIVE_MODE
 	P |= operand.B.L;
 #else
-    P |= (operand.B.L & ~0x30);
+	P |= (operand.B.L & ~0x30);
 #endif
 	CPU_modeSwitch();
 END_CPU_FUNC

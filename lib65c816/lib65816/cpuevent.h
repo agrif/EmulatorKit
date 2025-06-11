@@ -13,10 +13,10 @@ typedef void CPUHandler( word32 timestamp );
 
 struct CPUEvent
 {
-    CPUEvent *      next;
-    CPUEvent *      previous;
-    long            counter;
-    CPUHandler *    handler;
+	CPUEvent *      next;
+	CPUEvent *      previous;
+	long            counter;
+	CPUHandler *    handler;
 };
 
 void CPUEvent_elapse( word32 delta );
