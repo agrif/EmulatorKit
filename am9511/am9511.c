@@ -138,7 +138,7 @@ static void pupi(struct am_context *ctx) {
  * This relies on the stack data not moving during a push.
  */
 static void pto(struct am_context *ctx) {
-    unsigned char *s; 
+    unsigned char *s;
 
     if (IS_SINGLE) {
         s = stpos(-2);
@@ -463,7 +463,7 @@ static void basicf(struct am_context *ctx) {
     float a, b, r;
     double m;
     int e;
- 
+
     ap = stpos(-4);
     am_fp(ap, ctx->fptmp);
     fp_na(ctx->fptmp, &a);

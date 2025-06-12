@@ -281,7 +281,7 @@ int fp_hi(void *fpp, void *p) {
         return FP_ERR;
 
     /* Bias the exponent.
-     */ 
+     */
     e += 65;
     e &= 0x7f;
 
@@ -378,7 +378,7 @@ int fp_ms(void *fpp, void *p) {
         return FP_ERR;
 
     /* Bias the exponent.
-     */ 
+     */
     e += 129;
 
     /* Replace leading '1' with sign.
@@ -425,7 +425,7 @@ int am_fp(void *p, void *fpp) {
      */
     s = (am9511[I3] & 0x80) != 0;
     e = am9511[I3];
-    
+
     /* Gather mantissa.
      */
     m_h = am9511[I2];
@@ -549,4 +549,3 @@ void fp_put(void *fpp,
 size_t fp_size(void) {
     return sizeof (struct fp);
 }
-

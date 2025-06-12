@@ -120,7 +120,7 @@ int add16(unsigned char *pa,
     int carry;
 
     a = pa[0] | (pa[1] << 8);
-    b = pb[0] | (pb[1] << 8); 
+    b = pb[0] | (pb[1] << 8);
     c = a + b;
     carry = (c < a) || (c < b);
     pc[0] = c;
@@ -261,7 +261,7 @@ int sub16(unsigned char *pa,
     int carry;
 
     a = pa[0] | (pa[1] << 8);
-    b = pb[0] | (pb[1] << 8); 
+    b = pb[0] | (pb[1] << 8);
     c = a - b;
     if (a == 0x8000)
         carry = 1;
@@ -324,7 +324,7 @@ static uint16 mul8(unsigned char m, unsigned char n) {
  * r may be one or both of the operands
  */
 static void mul16(unsigned char *m, unsigned char *n, unsigned char *r) {
-#ifdef USE_MUL16 
+#ifdef USE_MUL16
     /* If we have 16x16->32 multiply, use it.
      */
     uint32 a, b, c;
@@ -653,7 +653,7 @@ int mulu32(unsigned char *pa,
         pc[3] = 0x80;
         return 1;
     }
- 
+
     s = 0;
     if (pa[3] & 0x80) {
 	s ^= 1;

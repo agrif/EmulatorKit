@@ -24,4 +24,3 @@ int mull32(unsigned char *pa, unsigned char *pb, unsigned char *pc);
 int mulu32(unsigned char *pa, unsigned char *pb, unsigned char *pc);
 
 #endif
-
