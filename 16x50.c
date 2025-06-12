@@ -269,7 +269,7 @@ void uart16x50_attach(struct uart16x50 *uart16x50, struct serial_device *dev)
 }
 
 void uart16x50_trace(struct uart16x50 *uart16x50, int onoff)
-{	
+{
 	uart16x50->trace = onoff;
 }
 
@@ -300,4 +300,3 @@ void uart16x50_free(struct uart16x50 *d)
 {
 	free(d);
 }
-

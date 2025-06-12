@@ -13,7 +13,7 @@
 struct scopewriter_renderer {
     struct scopewriter *sw;
 };
-    
+
 
 void scopewriter_render(struct scopewriter_renderer *render)
 {

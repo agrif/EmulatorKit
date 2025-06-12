@@ -217,11 +217,11 @@ static int ps2_ack_byte(struct ps2 *ps2, int clocks)
     /* Wait for data release */
     if (ps2->step == 1) {
         if (ps2->data_in == 0) {
-            ps2->step--; 
+            ps2->step--;
             return 0;
         }
         ps2->wait = DELAY_BIT_TO_CLOCK;
-        if (ps2->trace)	
+        if (ps2->trace)
             fprintf(stderr, "PS2: host released data line.\n");
         return clocks;
     }
@@ -229,7 +229,7 @@ static int ps2_ack_byte(struct ps2 *ps2, int clocks)
     if (ps2->step == 2) {
         ps2->data_out = 0;
         ps2->wait = DELAY_BIT_TO_CLOCK;
-        if (ps2->trace)	
+        if (ps2->trace)
             fprintf(stderr, "PS2: pull data low.\n");
         return clocks;
     }
@@ -237,7 +237,7 @@ static int ps2_ack_byte(struct ps2 *ps2, int clocks)
     if (ps2->step == 3) {
         ps2->clock_out = 0;
         ps2->wait = DELAY_BIT_TO_CLOCK;
-        if (ps2->trace)	
+        if (ps2->trace)
             fprintf(stderr, "PS2: pull clock low.\n");
         return clocks;
     }
@@ -321,7 +321,7 @@ static int ps2_receive_byte(struct ps2 *ps2, int clocks)
     fprintf(stderr, "Invalid step %d in ps2_send_byte.\n", ps2->step);
     exit(1);
 }
-        
+
 
 static unsigned ps2step;
 
@@ -481,7 +481,7 @@ void ps2_reset(struct ps2 *ps2)
     ps2_idle(ps2);
     ps2_queue_reply(ps2, 0xAA);
 }
- 
+
 struct ps2 *ps2_create(unsigned int divider)
 {
     struct ps2 *ps2 = malloc(sizeof(struct ps2));
@@ -531,4 +531,3 @@ void ps2_queue_byte(struct ps2 *ps2, uint8_t byte)
 {
     ps2_queue_key(ps2, byte);
 }
-

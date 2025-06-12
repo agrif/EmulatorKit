@@ -33,7 +33,7 @@ static const uint8_t iorom[] = {
 /* FD0A */	0xCA,0xF5,		/* ST A,-0B(P2)  again FCFF */
 /* FD0C */	0x5C			/* RET */
 };
-	
+
 #define TRACE_MEM	1
 #define TRACE_IO	2
 #define TRACE_CPU	4

@@ -1,6 +1,6 @@
 /* license:BSD-3-Clause
    copyright-holders:Michael Zapf */
-   
+
 /*
  *	De-mamed and turned back into C for the RC2014 emulator set. Any bugs
  *	in this version should be assumed to be mine, Alan Cox 2022.
@@ -166,11 +166,11 @@ struct tms9995 *tms9995_create(bool is_mp9537, bool bstep)
 		return NULL;
 	memset(tms, 0, sizeof(*tms));
 	tms->mp9537 = is_mp9537;
-#if 0	
+#if 0
 		tms->external_operation(*this),
 		tms->clock_out_line(*this),
 		tms->holda_line(*this)
-#endif		
+#endif
 	tms->check_overflow = !bstep;
 	// Set up the lookup table for command decoding
 	tms9995_build_command_lookup_table(tms); return tms;
@@ -877,7 +877,7 @@ const tms9995_instruction s_command[] =
     16 entries, indexed by 4 consecutive bits in the opcode.
 
     See tms9900.c for a detailed description.
-    
+
     Would actually probably be better to just binary search the
     above with masks precomputed
 */
@@ -896,7 +896,7 @@ static struct tms_decode *new_decode(void)
 		fprintf(stderr, "Out of memory.\n");
 		exit(1);
 	}
-	for (i = 0; i < 16; i++) { 
+	for (i = 0; i < 16; i++) {
 		d->index[i] = NOPRG;
 		d->next_digit[i] = NULL;
 	}
@@ -919,7 +919,7 @@ static void insert_decode(const tms9995_instruction *inst, unsigned int inum)
 
 	while(bitcount < n) {
 		idx = (opcode >> 12) & 0x0F;
-		if (decode->next_digit[idx] == NULL) 
+		if (decode->next_digit[idx] == NULL)
 			decode->next_digit[idx] = new_decode();
 		decode = decode->next_digit[idx];
 		bitcount += 4;
@@ -933,8 +933,8 @@ static void insert_decode(const tms9995_instruction *inst, unsigned int inum)
 //		fprintf(stderr, "opcode=%04x at position %d\n", inst->opcode, idx);
 		decode->index[idx + i] = inum;
 	}
-	
-}		
+
+}
 
 /*
  *	Build the decode tree
@@ -943,13 +943,13 @@ static void tms9995_build_command_lookup_table(struct tms9995 *tms)
 {
 	int inum = 0;
 	const tms9995_instruction *inst = s_command;
-	
+
 	/* Built already ? */
 	if (decode_root)
 		return;
 
 	decode_root = new_decode();
-	
+
 	while(inst->opcode != 0) {
 		insert_decode(inst, inum);
 		inst++;
@@ -1358,7 +1358,7 @@ static void tms9995_next_command(struct tms9995 *tms)
 		tms->get_destination = false;
 		// This is a preset for opcodes which do not need an opcode address derivation
 		tms->address = tms->WP + ((tms->IR & 0x000f)<<1);
-		tms->MPC = -1; 
+		tms->MPC = -1;
 		if (tms->itrace) {
 			fprintf(stderr, "===== %04x: Op=%04x (%s)\n", tms->PC-2, tms->IR, opname[tms->command]);
 
@@ -2499,7 +2499,7 @@ static void tms9995_alu_external(struct tms9995 *tms)
 #if 0
 	if (!tms->external_operation.isnull(tms))
 		tms->external_operation((tms->IR >> 5) & 0x07, 1, 0xff);
-#endif		
+#endif
 }
 
 /*

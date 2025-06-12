@@ -87,7 +87,7 @@ uint8_t propio_read(struct propio *prop, uint8_t addr)
         else {
             if (prop->trace)
                 fprintf(stderr, "propio: read byte - empty.\n");
-            return 0xFF; 
+            return 0xFF;
         }
     }
     return 0xFF;

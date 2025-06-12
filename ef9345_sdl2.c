@@ -32,7 +32,7 @@ struct ef9345_renderer {
     SDL_Texture *texture;
     SDL_Window *window;
 };
-    
+
 
 void ef9345_render(struct ef9345_renderer *render)
 {

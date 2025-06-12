@@ -77,7 +77,7 @@ static uint8_t do_mem_read(uint16_t addr, unsigned quiet)
 	/* 8000-FFFF map 1:1 */
 	if (!quiet && (trace & TRACE_MEM))
 		fprintf(stderr, "@%05X ", va);
-	r = ram[va];	
+	r = ram[va];
 	if (!quiet && (trace & TRACE_MEM))
 		fprintf(stderr, "%02X\n", r);
 	return r;
@@ -260,7 +260,7 @@ static void ios_read_sector(void)
 	if (trace & TRACE_DISK)
 		fprintf(stderr, "IOS: Read.\n");
 	if (read(ios_fd, ios_buf, 512) != 512)
-		ios_error = 19; 
+		ios_error = 19;
 }
 
 static void ios_write_sector(void)
@@ -270,7 +270,7 @@ static void ios_write_sector(void)
 	if (trace & TRACE_DISK)
 		fprintf(stderr, "IOS: Write.\n");
 	if (write(ios_fd, ios_buf, 512) != 512)
-		ios_error = 19; 
+		ios_error = 19;
 }
 
 static void ios_op(uint8_t val)

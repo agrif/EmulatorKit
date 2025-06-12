@@ -62,7 +62,7 @@ struct  m68hc11 {
 
     uint8_t tctl1;
     uint8_t tctl2;
-    
+
     uint8_t tmsk1;
     uint8_t tflg1;
 #define TF1_OC1F		0x80
@@ -120,7 +120,7 @@ struct  m68hc11 {
     /* Internal implementation help value - not a register */
     uint8_t last_scsr_read;
 
-    /* A2D convertors */    
+    /* A2D convertors */
     uint8_t adctl;
     uint8_t adr1;
     uint8_t adr2;
@@ -146,7 +146,7 @@ struct  m68hc11 {
 #define CFG_EEON	0x01
 
     uint8_t config_latch;	/* Actual boot latches we really use */
-};    
+};
 
 #define HC11_VEC_SCI		0xFFD6
 #define HC11_VEC_SPI		0xFFD8

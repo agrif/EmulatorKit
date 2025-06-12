@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "z80dis.h" 
- 
+#include "z80dis.h"
+
 static uint8_t prefix;
 static const char *hlname;
 static uint16_t pc;
@@ -169,7 +169,7 @@ void z80_disasm(char *buf, uint16_t addr)
     *buf = 0;
     hlname = "HL";
     prefix = 0;
-    
+
 restart:
     opcode = imm8();
     y = (opcode >> 3) & 7;
@@ -209,7 +209,7 @@ restart:
         z = opcode & 7;
         p = y >> 1;
         q = y & 1;
-        
+
         switch(opcode & 0xC0) {
         case 0:
         case 0xC0:
@@ -265,7 +265,7 @@ restart:
                     opgrouped2[z], "ID"[y & 1], y & 2 ? "R": "");
             } else
                 strcpy(buf, "NONI NOP");
-            return;                
+            return;
         }
         break;
     case 0x76:

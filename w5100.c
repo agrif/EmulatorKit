@@ -1,32 +1,32 @@
 /*
-   
+
    Chopped up by Alan Cox out of the W5100 emulation layer for FUSE. Added
    indirect mode support.
-   
+
    Emulates a minimal subset of the Wiznet W5100 TCP/IP controller.
 
    Copyright (c) 2011 Philip Kendall
-   
+
    $Id: w5100.c 4912 2013-03-24 19:34:06Z sbaldovi $
-   
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License along
    with this program; if not, write to the Free Software Foundation, Inc.,
    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-   
+
    Author contact information:
-   
+
    E-mail: philip-fuse@shadowmagic.org.uk
- 
+
 */
 #include <stdio.h>
 #include <stdint.h>
@@ -72,7 +72,7 @@ enum w5100_socket_registers {
   W5100_SOCKET_CR,
   W5100_SOCKET_IR,
   W5100_SOCKET_SR,
-  
+
   W5100_SOCKET_PORT0,
   W5100_SOCKET_PORT1,
 
@@ -174,7 +174,7 @@ enum w5100_registers {
   W5100_GWR1,
   W5100_GWR2,
   W5100_GWR3,
-  
+
   W5100_SUBR0,
   W5100_SUBR1,
   W5100_SUBR2,
@@ -421,7 +421,7 @@ w5100_socket_connect( nic_w5100_t *self, nic_w5100_socket_t *socket )
 {
   if( socket->state == W5100_SOCKET_STATE_INIT ) {
     struct sockaddr_in sa;
-    
+
     if( !socket->socket_bound )
       if( w5100_socket_bind_port( self, socket ) )
         return;
@@ -1005,7 +1005,7 @@ void w5100_process(nic_w5100_t *self)
 nic_w5100_t *nic_w5100_alloc( void )
 {
   int i;
-  
+
   nic_w5100_t *self = calloc(1, sizeof(*self));
   if( !self ) {
     fprintf(stderr, "%s:%d out of memory", __FILE__, __LINE__ );
@@ -1140,10 +1140,10 @@ w5100_write_imr( nic_w5100_t *self, uint8_t b )
   nic_w5100_debug( "w5100: writing 0x%02x to IMR\n", b );
   /* FIXME */
   if( b != 0xef )
-    fprintf( stderr, 
+    fprintf( stderr,
                      "w5100: unsupported value 0x%02x written to IMR\n", b );
 }
-  
+
 
 static void
 w5100_write__msr( nic_w5100_t *self, uint16_t reg, uint8_t b )
@@ -1153,7 +1153,7 @@ w5100_write__msr( nic_w5100_t *self, uint16_t reg, uint8_t b )
   nic_w5100_debug( "w5100: writing 0x%02x to %s\n", b, regname );
 
   if( b != 0x55 )
-    fprintf( stderr, 
+    fprintf( stderr,
                      "w5100: unsupported value 0x%02x written to %s\n",
                      b, regname );
 }
@@ -1226,7 +1226,7 @@ nic_w5100_write( nic_w5100_t *self, uint16_t reg, uint8_t b )
     nic_w5100_socket_write_tx_buffer( self, reg, b );
   }
   else
-    fprintf( stderr, 
+    fprintf( stderr,
                      "w5100: writing 0x%02x to unsupported register 0x%03x\n",
                      b, reg );
 }

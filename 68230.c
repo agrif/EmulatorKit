@@ -128,7 +128,7 @@ static void m68230_tick_once(struct m68230 *pit)
                 return;
             }
             pit->reg[CNTR(0)]--;
-        } 
+        }
         pit->reg[CNTR(1)]--;
     }
     pit->reg[CNTR(2)]--;
@@ -163,7 +163,7 @@ void m68230_tick(struct m68230 *pit, unsigned cycles)
         return;
     }
 }
-    
+
 void m68230_reset(struct m68230 *pit)
 {
      pit->reg[PIVR] = 0x0F;

@@ -23,7 +23,7 @@ struct ps2 {
     uint8_t last_sent;
     uint16_t receive;
     uint16_t send;
-    
+
     unsigned int busy;
     uint8_t rbuffer[PS2_BUFSIZ];
     unsigned int rbufptr;
@@ -50,4 +50,3 @@ void ps2_trace(struct ps2 *ps2, int onoff);
 void ps2_queue_byte(struct ps2 *ps2, uint8_t byte);
 
 void ps2_add_events(struct ps2 *ps2, uint32_t window);
-

@@ -13,7 +13,7 @@
 struct dgvideo_renderer {
     struct dgvideo *dg;
 };
-    
+
 
 void dgvideo_render(struct dgvideo_renderer *render)
 {

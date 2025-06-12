@@ -213,7 +213,7 @@ static void recalc_interrupts(void)
     else
         Z80NOINT(&cpu_z80);
 }
-    
+
 static void fpreg_write(uint8_t val)
 {
     fpreg &= ~0x47;	/* IRQ clear, clear counter */

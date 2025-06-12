@@ -109,7 +109,7 @@ struct z8 *cpu;
  *	otherwise it is treated as a RAM data access
  *
  *	MMU board at I/O FE/FF
- *	
+ *
  *	FE	Bank low, bank high (low 56K, high 8K) 4bits
  *	FF	Ditto for code memory, starts 0
  *
@@ -122,7 +122,7 @@ static uint8_t zport[4];
 uint8_t z8_port_read(struct z8 *z8, uint8_t port)
 {
 	return 0xFF;
-} 
+}
 
 void z8_port_write(struct z8 *z8, uint8_t port, uint8_t val)
 {
@@ -180,7 +180,7 @@ static void int_event(void)
 	if (c & 2)
 		z8_tx_done(cpu);
 }
-	
+
 void recalc_interrupts(void)
 {
 	if (live_irq)
@@ -458,7 +458,7 @@ static void my_ide_write(uint16_t addr, uint8_t val)
 
    Give the host time and don't emulate time setting except for
    the 24/12 hour setting.
-   
+
  */
 
 uint8_t z8_inport(uint8_t addr)
@@ -596,7 +596,7 @@ void z8_do_write(struct z8 *cpu, unsigned space, uint16_t addr, uint8_t val)
 		higha |= (reg & 0x10) ? 2 : 0;
 		higha |= (reg & 0x4) ? 4 : 0;
 		higha |= (reg & 0x01) ? 8 : 0;	/* ROM/RAM */
-		
+
 		if (trace & TRACE_MEM) {
 			fprintf(stderr, "W %04X[%02X] = %02X\n",
 				(unsigned int)addr,

@@ -69,7 +69,7 @@ struct sasi_disk
     unsigned int dlen;
     unsigned int cmd_len;
     unsigned int direction;
-    
+
     unsigned int status;
 
 };
@@ -90,7 +90,7 @@ struct sasi_bus {
 /*
  *	Emulated disk I/O
  */
- 
+
 static int do_read(struct sasi_disk *sd)
 {
     if (lseek(sd->fd, sd->lba * sd->sectorsize, SEEK_SET) < 0)
@@ -155,7 +155,7 @@ static void sasi_sense_with_lba(struct sasi_disk *sd, uint8_t error)
     sd->sensebuf[3] = sd->lba;
     sd->sensebuf[0] = error | 0x80;
 }
-    
+
 static void sasi_check_lba(struct sasi_disk *sd, uint32_t lba, uint16_t len)
 {
     if (lba + len < lba || lba + len >= sd->blocks) {
@@ -237,7 +237,7 @@ static void sasi_write_command(struct sasi_disk *sd, uint32_t lba,
 
 /*
  *	Disk format is a fire and forget. We format all the blocks
- *	from the LBA given to the media end 
+ *	from the LBA given to the media end
  */
 static void sasi_format_disk(struct sasi_disk *sd)
 {
@@ -602,7 +602,7 @@ uint8_t sasi_read_bus(struct sasi_bus *bus)
         return sasi_disk_status(bus->selected);
     else
         return sasi_disk_read(bus->selected);
-}   
+}
 
 void sasi_ack_bus(struct sasi_bus *bus)
 {
@@ -624,7 +624,7 @@ uint8_t sasi_read_data(struct sasi_bus *bus)
     r = sasi_read_bus(bus);
     sasi_ack_bus(bus);
     return r;
-}   
+}
 
 static void sasi_bus_exit_reset(struct sasi_bus *bus)
 {
@@ -655,7 +655,7 @@ void sasi_bus_control(struct sasi_bus *bus, unsigned val)
     else if (bus->state == BUS_ENDSEL) {
         /* Initiator dropped SEL */
         if (!(val & SASI_SEL)) {
-            sasi_device_begin(bus->selected); 
+            sasi_device_begin(bus->selected);
             bus->state = BUS_TRANSFER;
         }
     }
@@ -715,7 +715,7 @@ void sasi_disk_attach(struct sasi_bus *bus, unsigned int lun, const char *path, 
     sd->blocks = lseek(sd->fd, (off_t)0, 1) / sd->sectorsize;
     bus->device[lun] = sd;
 }
-    
+
 static void sasi_disk_free(struct sasi_disk *sd)
 {
     close(sd->fd);

@@ -96,7 +96,7 @@ uint8_t p90_read(uint32_t addr)
         return scon;
     case 0x2025:		/* Uart rx int */
         return urir;
-    case 0x2027: 
+    case 0x2027:
         return uriv;
     case 0x2029:		/* UART tx int */
         return utir;
@@ -156,7 +156,7 @@ uint8_t p90_read(uint32_t addr)
     default:
         fprintf(stderr, "Unemulated P90 read %06X", addr);
     }
-    return 0xFF; 
+    return 0xFF;
 }
 
 void p90_write(uint32_t addr, uint8_t val)
@@ -188,7 +188,7 @@ void p90_write(uint32_t addr, uint8_t val)
     case 0x2025:		/* Uart rx int */
         urir = val;
         break;
-    case 0x2027: 
+    case 0x2027:
         uriv = val;
         break;
     case 0x2029:		/* UART tx int */
@@ -344,21 +344,21 @@ int p90_autovector(unsigned n)
             return tm[0].tiv;
         else
             return M68K_INT_ACK_AUTOVECTOR;
-    }        
+    }
     if ((tm[1].tir & 7) == n) {
         tm[1].tir &= ~8;
         if (tm[1].tir & 0x20)
             return tm[1].tiv;
         else
             return M68K_INT_ACK_AUTOVECTOR;
-    }        
+    }
     if ((tm[2].tir & 7) == n) {
         tm[2].tir &= ~8;
         if (tm[2].tir & 0x20)
             return tm[2].tiv;
         else
             return M68K_INT_ACK_AUTOVECTOR;
-    }        
+    }
     /* Wasn't use - could be someone else, up to caller */
     return M68K_INT_ACK_SPURIOUS;
 }

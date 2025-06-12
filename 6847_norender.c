@@ -13,7 +13,7 @@
 struct m6847_renderer {
     struct m6847 *vdp;
 };
-    
+
 
 void m6847_render(struct m6847_renderer *render)
 {

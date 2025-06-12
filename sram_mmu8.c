@@ -70,8 +70,8 @@ uint8_t *sram_mmu_translate(struct sram_mmu *mmu, uint32_t addr, unsigned int wr
         }
     }
     return mmu->ram + ((map & 0x3F) << 13) + (addr & 0x1FFF);
-}            
-    
+}
+
 struct sram_mmu *sram_mmu_create(void)
 {
     struct sram_mmu *mmu = malloc(sizeof(struct sram_mmu));

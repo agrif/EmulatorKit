@@ -88,7 +88,7 @@ void write6502(uint16_t addr, uint8_t val)
 		mem[addr] = val;
 		return;
 	}
-	
+
 	if (addr < 0xA000 || (!basic && addr < 0xD000)) {
 		if (trace & TRACE_MEM)
 			fprintf(stderr, "%04X <- %02X\n", addr, val);
@@ -144,7 +144,7 @@ static void osi440_rasterize(void)
 static void osi440_render(void)
 {
 	SDL_Rect rect;
-	
+
 	rect.x = rect.y = 0;
 	rect.w = 32 * CWIDTH;
 	rect.h = 32 * CHEIGHT;
@@ -302,7 +302,7 @@ int main(int argc, char *argv[])
             exit(1);
         }
         ram_mask = (memsize * 1024) - 1;
-        
+
 	acia = acia_create();
 	acia_attach(acia, &console);
 	acia_trace(acia, trace & TRACE_ACIA);
@@ -382,7 +382,7 @@ int main(int argc, char *argv[])
 
 	init6502();
 	reset6502();
-	
+
 	/* This is the wrong way to do it but it's easier for the moment. We
 	   should track how much real time has occurred and try to keep cycle
 	   matched with that. The scheme here works fine except when the host

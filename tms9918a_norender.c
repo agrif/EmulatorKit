@@ -15,17 +15,17 @@ static uint32_t vdp_ctab[16] = {
     0x000000FF,		/* black */
     0x20C020FF,		/* green */
     0x60D060FF,		/* light green */
-    
+
     0x2020D0FF,		/* blue */
     0x4060D0FF,		/* light blue */
     0xA02020FF,		/* dark red */
     0x40C0D0FF,		/* cyan */
-    
+
     0xD02020FF,		/* red */
     0xD06060FF,		/* light red */
     0xC0C020FF,		/* dark yellow */
     0xC0C080FF,		/* yellow */
-    
+
     0x208020FF,		/* dark green */
     0xC040A0FF,		/* magneta */
     0xA0A0A0FF,		/* grey */
@@ -35,7 +35,7 @@ static uint32_t vdp_ctab[16] = {
 struct tms9918a_renderer {
     struct tms9918a *vdp;
 };
-    
+
 
 void tms9918a_render(struct tms9918a_renderer *render)
 {

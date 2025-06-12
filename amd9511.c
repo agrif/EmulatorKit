@@ -2,7 +2,7 @@
  *	Wrap the AM9511 library into our usual format. The library is close
  *	to our needs anyway.
  */
- 
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -71,6 +71,6 @@ void amd9511_trace(struct amd9511 *am, unsigned int trace)
 /* For now */
 unsigned int amd9511_irq_pending(struct amd9511 *am)
 {
- 
+
     return 0;
 }

@@ -81,7 +81,7 @@ static void sio_recalc_interrupts(struct z80_sio *sio)
 	sio_raise_int(sio->chan, 0, 1);
 	sio_raise_int(sio->chan + 1, 0, 1);
 }
-	
+
 static int sio_check_im2_chan(struct z80_sio_chan *chan)
 {
         struct z80_sio *sio = chan->sio;
@@ -107,7 +107,7 @@ static int sio_check_im2_chan(struct z80_sio_chan *chan)
 		} else {
 			chan->vector = vector;
 		}
-			
+
 		if (chan->trace)
 			fprintf(stderr, "New live interrupt pending is sio%c (%02X).\n",
 				chan->unit, chan->vector);

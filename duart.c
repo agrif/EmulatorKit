@@ -406,7 +406,7 @@ void duart_set_input(struct duart *duart, int port)
 }
 
 void duart_trace(struct duart *duart, int onoff)
-{	
+{
 	duart->trace = onoff;
 }
 

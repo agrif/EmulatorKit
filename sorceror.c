@@ -17,7 +17,7 @@
  *	ESGG  EXRAM		port 0x7F, 0-15 banks (0 - base)
  *				switches between 16 x 48K banks max (may be less, and may
  *				be 0, 4, 8, 12 if using 64K chips)
- *	
+ *
  *	TODO:
  *	S100 expansion (and banked RAM etc)
  *		S100 hard disk (PPIDE @0x30-0x33), (Z100lifeline ?)

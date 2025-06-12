@@ -5,7 +5,7 @@
  *	Banked memory
  *	16550A @7.3728MHHz (only tx/rx rts/cts wired)
  *	Bitbang SD
- *	
+ *
  *	0000-7FFF	Paged (A15-A19 from U7)
  *	8000-DFFF	Fixed RAM (A16-A19 held low by U8, A15 held high)
  *	E000-E7FF
@@ -18,7 +18,7 @@
  *	ROM 1111XX
  *	WMAP 11101X
  *	Fixed RAM 1XXXX
- *	
+ *
  *	0000-DFFF	RAM
  *	E000-E7FF	I/O
  *	E800-EFFF	MAP register (W/O)
@@ -170,7 +170,7 @@ unsigned char do_e6809_read8(unsigned addr, unsigned debug)
             if ((addr & 0x70) == 0x00)
                 r = uart16x50_read(uart, addr & 7);
             else if ((addr & 0x70) == 0x10)
-                return sd_input(); 
+                return sd_input();
         }
         else if (addr & 0x8000)
             r = ram[addr];	/* Page 1 */

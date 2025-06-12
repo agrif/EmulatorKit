@@ -43,7 +43,7 @@ struct tms9918a {
 /*
  *	Sprites
  */
- 
+
 /*
  *	Draw a horizontal slice of a sprite into the render buffer. If it
  *	needs magnifying then do the magnification as we render. We use a
@@ -155,7 +155,7 @@ static void tms9918a_sprite_line(struct tms9918a *vdp, int y)
     /* We need to render the ones we got in reverse order to get right
        pixel priority */
     while(spqueue > sphead) {
-        sprat = *--spqueue; 
+        sprat = *--spqueue;
         tms9918a_render_sprite(vdp, y, sprat, spdat + (sprat[2] << spshft));
     }
 }
@@ -340,7 +340,7 @@ static void quad(uint32_t *p, uint32_t code)
     *p++ = code;
     *p++ = code;
     *p++ = code;
-}    
+}
 
 static void tms9918a_raster_multi(struct tms9918a *vdp, uint8_t code, uint8_t *pattern, uint32_t *out)
 {
@@ -353,8 +353,8 @@ static void tms9918a_raster_multi(struct tms9918a *vdp, uint8_t code, uint8_t *p
     px = *pattern;
     quad(out, vdp->colourmap[px >> 4]);
     quad(out + 4, vdp->colourmap[px & 15]);
-}    
-    
+}
+
 /* Aka semi-graphics - this mode is almost never used. Each character
    is now a 2 byte pattern describing four squares in 16 colour (15 + bg).
    The row low bits provides the upper 2bits of the pattern code so that
@@ -372,7 +372,7 @@ static void tms9918a_rasterize_mc(struct tms9918a *vdp)
             fp += 8;
         }
         fp += 7 * 256;
-    }    
+    }
     tms9918a_raster_sprites(vdp);
 }
 
@@ -428,7 +428,7 @@ static void tms9918a_rasterize_text(struct tms9918a *vdp)
             fp[1792] = background;
             *fp++ = background;
         }
-        for (x = 0 ; x < 40; x++) { 
+        for (x = 0 ; x < 40; x++) {
             tms9918a_raster_pattern6(vdp, *p++, pattern, fp);
             fp += 6;
         }
@@ -590,7 +590,7 @@ void tms9918a_reset(struct tms9918a *vdp)
 }
 
 struct tms9918a *tms9918a_create(void)
-{	
+{
     struct tms9918a *vdp = malloc(sizeof(struct tms9918a));
     if (vdp == NULL) {
         fprintf(stderr, "Out of memory.\n");

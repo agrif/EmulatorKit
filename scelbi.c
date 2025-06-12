@@ -22,7 +22,7 @@
  *	baud rates and the like.
  *
  *	The front panel emulation is replaced by a simple command line
- *	interface. 
+ *	interface.
  */
 #include <stdio.h>
 #include <stdint.h>
@@ -86,7 +86,7 @@ void mem_write(struct i8008 *cpu, uint16_t addr, uint8_t val)
  *
  *	Intel Intellec (has a UART)
  *		port 0 teletype data in (8 bit)
- *		port 1 teletype status in 
+ *		port 1 teletype status in
  *               0: data ready
  *               1: overrun
  *               2: transmit buffer empty

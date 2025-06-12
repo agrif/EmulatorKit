@@ -91,7 +91,7 @@ struct zxkey *zxkey_create(unsigned type)
         zx->matrix = keymatrix_create(8, 5, speckeys);
     zx->type = type;
 
-    add_ui_handler(zxkey_SDL2event, zx); 
+    add_ui_handler(zxkey_SDL2event, zx);
     return zx;
 }
 
@@ -99,4 +99,3 @@ void zxkey_trace(struct zxkey *zx, int onoff)
 {
     keymatrix_trace(zx->matrix, onoff);
 }
-

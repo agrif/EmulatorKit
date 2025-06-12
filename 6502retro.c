@@ -38,7 +38,7 @@
  *
  * The bootloader had to be altered to work with this emulator.  The hardware
  * issues a number of empty bytes to the sdcard spi interface before and after
- * each sd command.  It's not clear why that's required on hardware but the 
+ * each sd command.  It's not clear why that's required on hardware but the
  * emulator does not support this kind of carry-on.  For now, the bootloader rom
  * must be compiled from the `emulator` branch.
  *
@@ -510,4 +510,3 @@ int main(int argc, char *argv[])
 
         exit(0);
 }
-

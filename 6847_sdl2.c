@@ -16,7 +16,7 @@
 
 /*
  * The 6847 set up is odd - there are 8 colours in the encoding plus black
- * which has a life of its own and we keep in slot 8 
+ * which has a life of its own and we keep in slot 8
  *
  * Ignore colour artifacting for the moment
  *
@@ -42,7 +42,7 @@ struct m6847_renderer {
     SDL_Texture *texture;
     SDL_Window *window;
 };
-    
+
 
 void m6847_render(struct m6847_renderer *render)
 {

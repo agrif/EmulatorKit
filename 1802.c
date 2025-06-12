@@ -469,7 +469,7 @@ static void execute_op(struct cp1802 *cpu)
     uint8_t opcode = cp1802_read(cpu, cpu->r[cpu->p]++);
     uint8_t reg = opcode & 0x0F;
     uint16_t tmp;
-    
+
     cpu->mcycles += 2;
 
     switch(opcode >> 4) {
@@ -568,7 +568,7 @@ static void execute_op(struct cp1802 *cpu)
             cpu->df = !(tmp >> 8);		/* Borrow */
             cpu->d = tmp;
             break;
-        case 8:		/* SAV */  
+        case 8:		/* SAV */
             cp1802_write(cpu, cpu->r[cpu->x], cpu->t);
             break;
         case 9:		/* MARK */
@@ -724,7 +724,7 @@ void cp1802_dma_in_cycle(struct cp1802 *cpu)
     cp1802_write(cpu, cpu->r[0]++, cp1802_dma_in(cpu));
     cpu->event = 1;
 }
-    
+
 void cp1802_dma_out_cycle(struct cp1802 *cpu)
 {
     uint8_t tmp = cp1802_read(cpu, cpu->r[0]++);

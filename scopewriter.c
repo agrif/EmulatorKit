@@ -159,7 +159,7 @@ static const uint8_t sw_font[] = {
 	0x3E,0x41,0x41,0x02,0x04,0x08,0x08,0x00,0x08,0x00,0x00,0x00,0x00,0x00,0x00,0x00
 };
 
-/* We should really raster at a higher resolution with a slope and with a 
+/* We should really raster at a higher resolution with a slope and with a
    decaying upward trace on clear pixels */
 
 static void sw_raster(struct scopewriter *sw, unsigned pos, uint8_t c)
@@ -227,11 +227,11 @@ void scopewriter_write(struct scopewriter *sw, uint8_t byte)
     S1 is PB or OSC
     S2 is LOAD
     S3 is WR/RE
-    
+
     To program it PB/OSC is set to OSC, WR/RE is set to WR, PB/OSC to PB
     each byte is then loaded and LOAD is pressed, then S3 is set to RE and
     PB/OSC is set ot OSC to display
-    
+
     When PB is set to PB the byte at the pointer position is rastered 32 times
     otherwise the line is swept. When WR is set nothing is output
  */

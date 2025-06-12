@@ -16,17 +16,17 @@ static uint32_t vdp_ctab[16] = {
     0xFF000000,		/* black */
     0xFF20C020,		/* green */
     0xFF60D060,		/* light green */
-    
+
     0xFF2020D0,		/* blue */
     0xFF4060D0,		/* light blue */
     0xFFA02020,		/* dark red */
     0xFF40C0D0,		/* cyan */
-    
+
     0xFFD02020,		/* red */
     0xFFD06060,		/* light red */
     0xFFC0C020,		/* dark yellow */
     0xFFC0C080,		/* yellow */
-    
+
     0xFF208020,		/* dark green */
     0xFFC040A0,		/* magneta */
     0xFFA0A0A0,		/* grey */

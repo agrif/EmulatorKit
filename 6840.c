@@ -25,7 +25,7 @@ struct m6840 {
     uint8_t msb;
     uint8_t lsb;
     uint8_t prescale;
-    
+
     unsigned int trace;
     unsigned int lastout;
 };
@@ -70,7 +70,7 @@ static void m6840_calc_outputs(struct m6840 *ptm)
     unsigned int output = 0;
     int i;
     struct ptm_timer *p = &ptm->timer[1];
-    for (i = 0; i <= 2; i++) { 
+    for (i = 0; i <= 2; i++) {
         if (p->output && (p->ctrl & 0x80))
             output |= (1 << i);
         p++;
@@ -189,7 +189,7 @@ void m6840_external_clock(struct m6840 *ptm, int timer)
     m6840_calc_outputs(ptm);
 }
 
-/* High to low transition on gate */    
+/* High to low transition on gate */
 void m6840_external_gate(struct m6840 *ptm, int gate)
 {
     if (ptm->timer[gate].ctrl & 8) {

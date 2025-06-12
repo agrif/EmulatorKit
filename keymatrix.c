@@ -32,7 +32,7 @@ struct keymatrix {
     int trace;
     void (*translate)(SDL_Event *ev);
 };
- 
+
 /*
  *	Work out what this key is in the matrix
  */

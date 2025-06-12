@@ -22,7 +22,7 @@ struct z180_asci {
     uint8_t ecr;
     bool irq;
     struct serial_device *dev;
-    
+
 };
 
 struct z180_prt {
@@ -224,7 +224,7 @@ void z180_interrupt(struct z180_io *io, uint8_t pin, uint8_t vec, bool on)
 
     z180_next_interrupt(io);
 }
-    
+
 static void z180_asci_recalc(struct z180_io *io, struct z180_asci *asci)
 {
     asci->irq = 0;
@@ -358,7 +358,7 @@ static void z180_prt_event(struct z180_io *io, struct z180_prt *prt, unsigned in
     }
     clocks -= prt->tmdr;	/* Cycles after the overflow */
     prt->tmdr = prt->rldr - clocks;	/* Set up with what is left */
-    io->tcr |= 0x40 << shift;    
+    io->tcr |= 0x40 << shift;
 }
 
 bool z180_iospace(struct z180_io *io, uint16_t addr)

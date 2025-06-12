@@ -56,7 +56,7 @@ static void m6847_rg_raster(struct m6847 *vdg, uint8_t config)
                     if (data & 0x80)
                         *p++ = vdg->foreground;
                     else
-                        *p++ = vdg->background;    
+                        *p++ = vdg->background;
                     x++;
                 }
                 data <<= 1;
@@ -189,7 +189,7 @@ static void m6847_text_raster(struct m6847 *vdg, uint8_t config)
  */
 static void m6847_calc_colours(struct m6847 *vdg, uint8_t config)
 {
-    if (config & M6847_CSS) { 
+    if (config & M6847_CSS) {
         vdg->foreground = vdg->colourmap[1];	/* Orange */
         vdg->foreground = vdg->colourmap[7];	/* Dark orange */
     } else {
@@ -204,7 +204,7 @@ static void m6847_calc_colours(struct m6847 *vdg, uint8_t config)
         vdg->background = vdg->foreground;
         vdg->foreground = c;
     }
-#endif    
+#endif
 }
 
 void m6847_rasterize(struct m6847 *vdg)

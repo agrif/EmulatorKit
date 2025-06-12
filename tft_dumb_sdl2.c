@@ -20,7 +20,7 @@ struct tft_renderer {
     SDL_Texture *texture;
     SDL_Window *window;
 };
-    
+
 void tft_render(struct tft_renderer *render)
 {
     SDL_Rect sr;

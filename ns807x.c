@@ -14,7 +14,7 @@
  *	most processors. The other major quirk is that there are no absolute
  *	loads except for the direct page. All loads must go through a pointer.
  *
- *	INS8070		64 bytes onchip RAM (FFC0-FFFF) no onchip ROM 
+ *	INS8070		64 bytes onchip RAM (FFC0-FFFF) no onchip ROM
  *	INS8072		As above 2.5K on chip ROM (0000-09FF)
  *	INS8073		An 8072 with a standard TinyBASIC ROM
  *
@@ -102,7 +102,7 @@ static void mul32(struct ns8070 *cpu)
     /* What should CY/L and OV be set to */
     if ((cpu->t * val) & 0x80000000)
         cpu->s |= S_CL;
-    
+
 }
 
 static uint8_t maths8add(struct ns8070 *cpu, uint8_t a, uint8_t b, uint8_t r)
@@ -158,7 +158,7 @@ static void maths16ea(struct ns8070 *cpu, uint16_t val, int dir)
         if (r & 0x10000)
             cpu->s |= S_CL;
         cpu->s ^= S_CL;
-    } else { 
+    } else {
         r = ea + val;
         if (((r ^ ea) & 0x8000)  && ((r ^ val) & 0x8000))
             cpu->s |= S_OV;
@@ -183,7 +183,7 @@ static unsigned int do_ssm(struct ns8070 *cpu, uint16_t *ptr)
     }
     (*ptr)--;		/* Gets 255 increments */
     return clocks + 5;
-}    
+}
 
 static uint8_t get_s(struct ns8070 *cpu)
 {
@@ -205,7 +205,7 @@ static char *cpu_flags(struct ns8070 *cpu)
     char *p = buf;
     char *x = "COBA321I";
     uint8_t s = get_s(cpu);
-    
+
     while(*x) {
         if (s & 0x80)
             *p++ = *x;
@@ -580,7 +580,7 @@ static uint16_t get_imm16(struct ns8070 *cpu)
 
 /* 84 (8C) (94) (9C) A4 (AC) B4 BC are data 2
    C4 D4 E4 F4 and (CC) DC (EC) FC are data 1 */
-   
+
 static unsigned int execute_high(struct ns8070 *cpu)
 {
     uint8_t mode = cpu->i & 0x07;
@@ -819,7 +819,7 @@ static unsigned int execute_op(struct ns8070 *cpu)
             cpu->a -= 48;
         } else {
             cpu->pc += offs;
-        }        
+        }
         /* The low test occurs first and is 2 clocks shorter */
         return tmp8 < 48 ? 7 : 9;
     case 0x2E:	/* SSM P2 */

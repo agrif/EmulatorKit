@@ -474,7 +474,7 @@ void io_write(int unused, uint16_t addr, uint8_t val)
 		fdc_write_drr(fdc, val);
 		break;
 	case 0x30:
-		if (addr & 1)	
+		if (addr & 1)
 			fdc_write_data(fdc, val);
 		else
 			/* ?? */;
@@ -495,7 +495,7 @@ void io_write(int unused, uint16_t addr, uint8_t val)
 		rtc_write(rtc, val);
 		break;
 	case 0x78:
-		if (addr >= 0x7C) { 
+		if (addr >= 0x7C) {
 			banken = val & 1;
 			break;
 		} else {
@@ -646,7 +646,7 @@ int main(int argc, char *argv[])
 	        pprop_set_input(pprop, 0);
         	pprop_trace(pprop, trace & TRACE_PROP);
 	}
-	
+
 
 	ctc_init();
 	uart = uart16x50_create();

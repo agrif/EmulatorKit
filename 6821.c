@@ -15,7 +15,7 @@ struct m6821 {
 
     uint8_t ctrl;
     uint8_t ctrl_last;
-    
+
     uint8_t irq;
 
     int trace;
@@ -137,9 +137,9 @@ void m6821_write(struct m6821 *pia, uint8_t addr, uint8_t val)
     switch(addr) {
     case 0:
         if (pia->cra & 0x04) {
-            pia->pra = val; 
+            pia->pra = val;
             m6821_output(pia, 0, val & pia->ddra);
-        } else { 
+        } else {
             pia->ddra = val;
             m6821_output(pia, 0, pia->pra & pia->ddra);
         }
@@ -149,7 +149,7 @@ void m6821_write(struct m6821 *pia, uint8_t addr, uint8_t val)
         break;
     case 2:
         if (pia->crb & 4) {
-            pia->prb = val; 
+            pia->prb = val;
             m6821_output(pia, 1, val & pia->ddrb);
             if ((pia->crb & 0x30) == 0x20) {
                 /* Write strobe and write low until ack */
@@ -222,7 +222,7 @@ void m6821_set_control(struct m6821 *pia, int cline, int onoff)
                 m6821_calc_cr(pia);
             }
         }
-        return;                
+        return;
     case M6821_CA2:
         if (pia->cra & 0x20) {
             /* Not an input */
