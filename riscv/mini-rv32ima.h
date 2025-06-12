@@ -236,7 +236,7 @@ MINIRV32_DECORATE int32_t MiniRV32IMAStep( struct MiniRV32IMAState * state, uint
 							case 0b010: rval = MINIRV32_LOAD4( rsval ); break;
 							case 0b100: rval = MINIRV32_LOAD1( rsval ); break;
 							case 0b101: rval = MINIRV32_LOAD2( rsval ); break;
- 							default: trap = (2+1); 
+ 							default: trap = (2+1);
 						}
 					}
 					break;
@@ -255,7 +255,7 @@ MINIRV32_DECORATE int32_t MiniRV32IMAStep( struct MiniRV32IMAState * state, uint
 						addy += MINIRV32_RAM_IMAGE_OFFSET;
 						if( addy >= MINIRV32_IO_OFFSET && addy < MINIRV32_IO_OFFSET + MINIRV32_IO_SIZE)
 						{
-							// Should be stuff like SYSCON, 8250, CLNT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+							// Should be stuff like SYSCON, 8250, CLNT
 							if( addy == 0x11004004 ) //CLNT
 								CSR( timermatchh ) = rs2;
 							else if( addy == 0x11004000 ) //CLNT
@@ -523,5 +523,3 @@ MINIRV32_DECORATE int32_t MiniRV32IMAStep( struct MiniRV32IMAState * state, uint
 #endif
 
 #endif
-
-
