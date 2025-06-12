@@ -122,7 +122,7 @@ enum
 		STOP_BITS_1_5 = 2,
 		STOP_BITS_2 = 3
 	};
- 
+
 // address spaces
 enum address_spacenum
 {

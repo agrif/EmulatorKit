@@ -110,9 +110,9 @@ enum
 #define Z280_IOP   8     // I/O Page reg (byte) p.3-5
 #define Z280_BTI   0xFF  // Bus Timing and Initialization reg. (byte) p.3-1,3-2
 #define Z280_BTC   2     // Bus Timing and Control reg. (byte) p.3-2
-#define Z280_SSLR  4     // System Stack Limit reg. (word) p.3-6 
+#define Z280_SSLR  4     // System Stack Limit reg. (word) p.3-6
 #define Z280_TCR   0x10  // Trap Control reg. (byte) p.3-5,3-6
-#define Z280_CCR   0x12  // Cache Control reg. (byte) p.3-3,3-4 
+#define Z280_CCR   0x12  // Cache Control reg. (byte) p.3-3,3-4
 #define Z280_LAR   0x14  // Local Address reg. (byte) p.3-3
 
 /* Internal IO ranges p.489*/
@@ -201,7 +201,7 @@ struct z280_device {
 void z280_debug(device_t *device, offs_t curpc);
 offs_t cpu_disassemble_z280(device_t *device, char *buffer, offs_t pc, const UINT8 *opram, int options);
 
-struct z280_device *cpu_create_z280(char *tag, UINT32 type, UINT32 clock, 
+struct z280_device *cpu_create_z280(char *tag, UINT32 type, UINT32 clock,
     struct address_space *ram,
 	struct address_space *iospace, device_irq_acknowledge_callback irqcallback, struct z80daisy_interface *daisy_init,
 	init_byte_callback bti_init_cb, /* init BTI by AD0-AD7 on reset */
@@ -214,7 +214,7 @@ int cpu_translate_z280(device_t *device, enum address_spacenum space, int intent
 
 void z280_set_irq_line(device_t *device, int irqline, int state);
 void z280_set_rdy_line(device_t *device, int rdyline, int state);
-                                                 
+
 offs_t cpu_get_state_z280(device_t *device,int device_state_entry);
 void cpu_string_export_z280(device_t *device, int device_state_entry, char *string);
 

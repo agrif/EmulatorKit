@@ -1,8 +1,8 @@
 // license:BSD-3-Clause
-// copyright-holders:Joakim Larsson Edstrom 
+// copyright-holders:Joakim Larsson Edstrom
 
 // Copyright (c) Michal Tomek 2018-2021
-// based on Z80SCC 
+// based on Z80SCC
 
 /***************************************************************************
 
@@ -44,7 +44,7 @@ struct z280uart_device {
 	UINT8 rx_data;
 	UINT8 m_rdr;
 
-	//int m_rxd; 	
+	//int m_rxd;
 
 	// transmitter state
 	//int m_tx_clock;             // transmit clock pulse count
@@ -55,12 +55,12 @@ struct z280uart_device {
 	UINT8 m_bit_count;
 
 	//int m_txd;
-	
+
 	// byte rx/tx callbacks
 	// Note: bit rx/tx callbacks are not implemented
 	tx_callback_t tx_callback;
 	rx_callback_t rx_callback;
-    
+
 	// interrupt line callback
 	//devcb_write_line    m_out_int_cb;
 

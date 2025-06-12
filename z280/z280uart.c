@@ -55,7 +55,7 @@ UINT32 get_brg_const_z280(struct z280_device *d);
 #define transmit_register_setup(d,data) d->tx_data = data; d->tx_bits_rem = d->m_bit_count	/* load character into shift register */
 #define transmit_register_get_data_bit(d) 0
 #define receive_register_extract(d) /**/
-#define get_received_char(d) d->rx_data 
+#define get_received_char(d) d->rx_data
 
 void z280uart_device_start(struct z280uart_device *d);
 void z280uart_device_reset(struct z280uart_device *d);
@@ -212,7 +212,7 @@ void z280uart_device_tra_complete(struct z280uart_device *d)
 
 	if (!(d->m_tcsr & TCSR_BE))
 	{
-		LOG("%s \"%s\" done sending, loading data from TDR:%02x '%c'\n", FUNCNAME, d->m_tag, 
+		LOG("%s \"%s\" done sending, loading data from TDR:%02x '%c'\n", FUNCNAME, d->m_tag,
 			   d->m_tdr, isprint(d->m_tdr) ? d->m_tdr : ' ');
 		transmit_register_setup(d,d->m_tdr); // Reload the shift register
 		d->m_tcsr |= TCSR_BE; // Now here is room in the TDR again
@@ -330,7 +330,7 @@ void z280uart_set_data_frame(struct z280uart_device *d, int data_bit_count, enum
 
 	d->m_bit_count = 1 + data_bit_count + stop_bit_count + (parity != PARITY_NONE?1:0);
 
-} 
+}
 
 //-------------------------------------------------
 //  get_stop_bits - get number of stop bits
@@ -442,7 +442,7 @@ void z280uart_device_register_write(struct z280uart_device *d, uint8_t reg, uint
 
 //-------------------------------------------------
 //  data_read - read data register
-//-------------------------------------------------		   
+//-------------------------------------------------
 uint8_t z280uart_device_data_read(struct z280uart_device *d)
 {
 	uint8_t data = 0;
@@ -533,7 +533,7 @@ void z280uart_device_receive_data(struct z280uart_device *d, uint8_t data)
 
 	z280uart_device_check_rxint(d);
 }
- 
+
 
 //-------------------------------------------------
 // get_brg_rate

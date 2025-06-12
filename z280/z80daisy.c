@@ -279,14 +279,14 @@ void z80_daisy_chain_call_reti_device(struct z80_daisy_chain* d)
 }
 
 
-/*void z80_daisy_chain_set_config(struct z80_daisy_chain* d, const z80_daisy_config *config); 
-{ 
-	d->m_daisy_config = config; 
+/*void z80_daisy_chain_set_config(struct z80_daisy_chain* d, const z80_daisy_config *config);
+{
+	d->m_daisy_config = config;
 }*/
 
-int z80_daisy_chain_chain_present(struct z80_daisy_chain* d) //const 
-{ 
-	return (d->m_chain != NULL); 
+int z80_daisy_chain_chain_present(struct z80_daisy_chain* d) //const
+{
+	return (d->m_chain != NULL);
 }
 
 //-------------------------------------------------

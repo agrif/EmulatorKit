@@ -279,7 +279,7 @@ OP(fded,f4) { EAY(cpustate); DIV( RM(cpustate, cpustate->ea) );               } 
 OP(fded,f5) { EAY(cpustate); DIVU( RM(cpustate, cpustate->ea) );              } /* DIVU HL,(IY+o)   */
 OP(fded,f6) { ADD16F( ARG16(cpustate) );                                      } /* ADDW HL,w        */
 OP(fded,f7) { CP16( ARG16(cpustate));                                         } /* CPW HL,w         */
-																								   
+
 OP(fded,f8) { MULT( ARG(cpustate) );                                          } /* MULT A,n         */
 OP(fded,f9) { MULTU( ARG(cpustate) );                                         } /* MULTU A,n        */
 OP(fded,fa) { DIVW( ARG16(cpustate) );                                        } /* DIVW DEHL,w      */

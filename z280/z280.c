@@ -65,7 +65,7 @@ struct z280_state
 	union PAIR    AF2,BC2,DE2,HL2;
 	UINT8   AF2inuse, BC2inuse;
 	UINT8   R;								/* R is not refresh counter but GPR p.488 */
-	UINT8   IFF2,HALT,IM,I;					/* IFF2 name kept in accordance with Z80/Z180. Note that 
+	UINT8   IFF2,HALT,IM,I;					/* IFF2 name kept in accordance with Z80/Z180. Note that
 											   p.5-118 calls this IFF and p.6-3 Interrupt Shadow Reg.*/
 	UINT8   cr[Z280_CRSIZE];                /* control registers */
 	UINT8   rrr;                            /* refresh rate register */
@@ -464,7 +464,7 @@ void z280_writecontrol(struct z280_state *cpustate, offs_t reg, UINT16 data)
 			cpustate->cr[reg] = data;
 			break;
 
-		default:                                                                      
+		default:
 			LOG("Z280 '%s' bogus write control reg %02X:$%04X\n", cpustate->device->m_tag, reg &0xff, data);
 			break;
 	}
@@ -486,7 +486,7 @@ INLINE int CT_UNIT(offs_t port) {
 	return unit;
 }
 
-/* 
+/*
    note that ZBUS is big endian (p.13-6,13-11):
    all bytes with an even address are transferred on AD8-15, and with an odd address on AD0-7;
    byte IO to an even address accesses the high byte of the peripheral register;
@@ -627,7 +627,7 @@ void z280_writeio_byte(struct z280_state *cpustate, offs_t port, UINT8 data)
 				break;
 			case Z280_CTCSR:
 				LOG("Z280 '%s' CTCSR%d wr $%02x\n", cpustate->device->m_tag, unit, data);
-				if (!(cpustate->ctcsr[unit] & Z280_CTCSR_TR) && 
+				if (!(cpustate->ctcsr[unit] & Z280_CTCSR_TR) &&
 				   (data & (Z280_CTCSR_EN | Z280_CTCSR_TR)) == (Z280_CTCSR_EN | Z280_CTCSR_TR)) // triggered
 				{
 					z280_reload_timer(cpustate, unit);
@@ -647,7 +647,7 @@ void z280_writeio_byte(struct z280_state *cpustate, offs_t port, UINT8 data)
 							irq = Z280_INT_CTR2;
 							break;
 					}
-					LOG("%s CT%d clear interrupt\n", cpustate->device->m_tag, unit); 
+					LOG("%s CT%d clear interrupt\n", cpustate->device->m_tag, unit);
 					cpustate->int_pending[irq] = CLEAR_LINE;
 				}
 				break;
@@ -906,7 +906,7 @@ void z280_writeio_word(struct z280_state *cpustate, offs_t port, UINT16 data)
 				break;
 			case Z280_CTCSR:
 				LOG("Z280 '%s' w,CTCSR%d (odd) wr $%04x\n", cpustate->device->m_tag, unit, data);
-				if (!(cpustate->ctcsr[unit] & Z280_CTCSR_TR) && 
+				if (!(cpustate->ctcsr[unit] & Z280_CTCSR_TR) &&
 				   (data & (Z280_CTCSR_EN | Z280_CTCSR_TR)) == (Z280_CTCSR_EN | Z280_CTCSR_TR)) // triggered
 				{
 					z280_reload_timer(cpustate, unit);
@@ -926,7 +926,7 @@ void z280_writeio_word(struct z280_state *cpustate, offs_t port, UINT16 data)
 							irq = Z280_INT_CTR2;
 							break;
 					}
-					LOG("%s CT%d clear interrupt\n", cpustate->device->m_tag, unit); 
+					LOG("%s CT%d clear interrupt\n", cpustate->device->m_tag, unit);
 					cpustate->int_pending[irq] = CLEAR_LINE;
 				}
 				break;
@@ -1153,7 +1153,7 @@ int z280_take_dma(struct z280_state *cpustate)
 		{
 			// IO to memory
 			if ((cpustate->dmatdr[channel] & Z280_DMATDR_TYPE) == Z280_DMATDR_TYPE_FLOWTHR || (channel < 2 && (cpustate->dmatdr[channel] & Z280_DMATDR_TYPE) == Z280_DMATDR_TYPE_FLYBYW))
-			{																																			
+			{
 				switch (cpustate->dmatdr[channel] & Z280_DMATDR_ST)
 				{
 					case Z280_DMATDR_ST_LONG:
@@ -1185,7 +1185,7 @@ int z280_take_dma(struct z280_state *cpustate)
 		{
 			// memory to IO
 			if ((cpustate->dmatdr[channel] & Z280_DMATDR_TYPE) == Z280_DMATDR_TYPE_FLOWTHR || (channel < 2 && (cpustate->dmatdr[channel] & Z280_DMATDR_TYPE) == Z280_DMATDR_TYPE_FLYBYR))
-			{																																			
+			{
 				switch (cpustate->dmatdr[channel] & Z280_DMATDR_ST)
 				{
 					case Z280_DMATDR_ST_LONG:
@@ -1213,12 +1213,12 @@ int z280_take_dma(struct z280_state *cpustate)
 				LOG("Z280 '%s' DMA%d invalid transaction type $%02X\n", cpustate->device->m_tag, channel, (cpustate->dmatdr[channel] & Z280_DMATDR_TYPE)>>5);
 			}
 		}
-		else if ((cpustate->dmatdr[channel] & Z280_DMATDR_DAD) >= Z280_DMATDR_DAD_INCIO && (cpustate->dmatdr[channel] & Z280_DMATDR_DAD) <= Z280_DMATDR_DAD_IO 
+		else if ((cpustate->dmatdr[channel] & Z280_DMATDR_DAD) >= Z280_DMATDR_DAD_INCIO && (cpustate->dmatdr[channel] & Z280_DMATDR_DAD) <= Z280_DMATDR_DAD_IO
 			&& (cpustate->dmatdr[channel] & Z280_DMATDR_SAD) >= Z280_DMATDR_SAD_INCIO && (cpustate->dmatdr[channel] & Z280_DMATDR_SAD) <= Z280_DMATDR_SAD_IO)
 		{
 			// IO to IO
 			if ((cpustate->dmatdr[channel] & Z280_DMATDR_TYPE) == Z280_DMATDR_TYPE_FLOWTHR)
-			{																																			
+			{
 				switch (cpustate->dmatdr[channel] & Z280_DMATDR_ST)
 				{
 					case Z280_DMATDR_ST_WORD:
@@ -1272,7 +1272,7 @@ int z280_take_dma(struct z280_state *cpustate)
 	return cycles;
 }
 
-struct z280_device *cpu_create_z280(char *tag, UINT32 type, UINT32 clock, 
+struct z280_device *cpu_create_z280(char *tag, UINT32 type, UINT32 clock,
     struct address_space *ram,
 	struct address_space *iospace, device_irq_acknowledge_callback irqcallback, struct z80daisy_interface *daisy_init,
 	init_byte_callback bti_init_cb, /* init BTI by AD0-AD7 on reset */
@@ -1504,7 +1504,7 @@ void cpu_reset_z280(device_t *device)
 
 	/* reset cr registers */
 	memset(cpustate->cr, 0, sizeof(cpustate->cr));
-	
+
 	/* reset io registers */
 	cpustate->rrr = 0;
 	memset(cpustate->mmur, 0, sizeof(cpustate->mmur));
@@ -1596,20 +1596,20 @@ void terminal_count(struct z280_state *cpustate, int unit)
 				irq = Z280_INT_CTR2;
 				break;
 		}
-		LOG("%s CT%d assert interrupt\n", cpustate->device->m_tag, unit); 
+		LOG("%s CT%d assert interrupt\n", cpustate->device->m_tag, unit);
 		cpustate->int_pending[irq] = ASSERT_LINE;
 	}
 }
 
 
-/* Clock CT timers 
+/* Clock CT timers
    decrement timers according to cycles elapsed in the last instruction execution
 */
 void clock_timers(struct z280_state *cpustate, int cycles)
 {
 	/* This is not the best place, but: if the UART is clocked from CTIN1 (the default),
 	   we are bypassing CT1 but need to call z280uart_device_timer in constant intervals
-	   according to the main clock / CTIN1 ratio. 
+	   according to the main clock / CTIN1 ratio.
 	   This is precalculated and saved as ctin1_brg_const. */
 	if (!(cpustate->device->z280uart->m_uartcr & 0x8 /*UARTCR_CS*/))
 	{

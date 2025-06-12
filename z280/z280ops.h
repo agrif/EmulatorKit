@@ -25,21 +25,21 @@ if (is_user(cs))                                              \
 {                                                             \
 	take_trap(cs, Z280_TRAP_PRIV);			                  \
 }															  \
-else														  
+else
 
 #define CHECK_PRIV_IO(cs)                                     \
 if (is_user(cs) && (cs)->cr[Z280_TCR]&Z280_TCR_I)             \
 {                                                             \
 	take_trap(cs, Z280_TRAP_PRIV);			                  \
 }															  \
-else														  
+else
 
 #define CHECK_EPU(cs,t)                                       \
 if (!((cs)->cr[Z280_TCR]&Z280_TCR_E))                         \
 {                                                             \
 	take_trap(cs, t);			                              \
 }															  \
-else														  
+else
 
 #define CHECK_SSO(cs)                                         \
 if ((cs)->cr[Z280_TCR]&Z280_TCR_S &&                          \

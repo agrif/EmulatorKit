@@ -510,7 +510,7 @@ int take_interrupt(struct z280_state *cpustate, int irq)
 		if (!(cpustate->cr[Z280_ISR] & isrmask)) // not vectored
 		{
 			cpustate->_PCD = RM16PHY(cpustate,ivaddr+2);
-			LOG("Z280 '%s' IM3 IVT:%06x [$%02x] = $%04x,msr:$%04x\n",cpustate->device->m_tag , 
+			LOG("Z280 '%s' IM3 IVT:%06x [$%02x] = $%04x,msr:$%04x\n",cpustate->device->m_tag ,
 		        CALC_IVADDR(cpustate, 0), vecoffs, cpustate->_PCD, MSR(cpustate));
 		}
 		else // vectored
@@ -521,7 +521,7 @@ int take_interrupt(struct z280_state *cpustate, int irq)
 			LOG("Z280 '%s' IM3 IVT:%06x [$%02x] vectored $%03x = $%04x,msr:$%04x\n",cpustate->device->m_tag ,
 			    CALC_IVADDR(cpustate, 0), vecoffs, irq_vector, cpustate->_PCD, MSR(cpustate));
 		}
-		
+
 		/* CALL opcode timing */
 		cycles += cpustate->cc[Z280_TABLE_op][0xcd];
 	}
