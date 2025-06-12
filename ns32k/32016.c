@@ -97,7 +97,7 @@ const uint32_t OpSizeLookup[6] = {
 /*
  *	Simple memory interface
  */
- 
+
 static uint8_t read_x8(uint32_t addr)
 {
 	return ns32016_read8(addr);

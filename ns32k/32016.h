@@ -1,7 +1,7 @@
 /*
  *	NS32K CPU defines
  */
- 
+
 /*
  *	Public interface
  */
