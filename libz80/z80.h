@@ -40,18 +40,18 @@ typedef byte (*Z80DataIn) 	(int param, ushort address);
 typedef void (*Z80DataOut)	(int param, ushort address, byte data);
 
 
-/** 
+/**
  * A Z80 register set.
  * An union is used since we want independent access to the high and low bytes of the 16-bit registers.
  */
-typedef union 
+typedef union
 {
 	/** Word registers. */
 	struct
 	{
 		ushort AF, BC, DE, HL, IX, IY, SP;
 	} wr;
-	
+
 	/** Byte registers. Note that SP can't be accessed partially. */
 	struct
 	{
@@ -90,15 +90,15 @@ typedef struct
 	byte	IFF2;	/**< Interrupt Flipflop 2 */
 	byte	IM;		/**< Instruction mode */
 	byte	M1;		/**< M1 line state (only for ifetch) */
-	
+
 	Z80DataIn	memRead;
 	Z80DataOut	memWrite;
 	int			memParam;
-	
+
 	Z80DataIn	ioRead;
 	Z80DataOut	ioWrite;
 	int			ioParam;
-	
+
 	byte		halted;
 	unsigned	tstates;
 

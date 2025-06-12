@@ -39,7 +39,7 @@
 
 /* ---------------------------------------------------------
  *  Flag tricks
- * --------------------------------------------------------- 
+ * ---------------------------------------------------------
  *
  * To avoid repeating entries in the spec files, many operations that look similar are treated as special cases
  * of a more general operation.
@@ -56,7 +56,7 @@
  * and everything works fine.
  *
  */
- 
+
 /* Flags for doIncDec() */
 static const int ID_INC = 0;
 static const int ID_DEC = 1;
@@ -91,7 +91,7 @@ static const int F2_SUB = 1;
 
 /* ---------------------------------------------------------
  *  The opcode implementations
- * --------------------------------------------------------- 
+ * ---------------------------------------------------------
  */
 #include "codegen/opcodes_decl.h"
 
@@ -100,18 +100,18 @@ typedef enum
 	OP_NONE,
 	OP_BYTE,
 	OP_OFFSET,
-	OP_WORD	
+	OP_WORD
 } Z80OperandType;
 
-typedef void (*Z80OpcodeFunc) (Z80Context* ctx); 
+typedef void (*Z80OpcodeFunc) (Z80Context* ctx);
 
 struct Z80OpcodeEntry
 {
 	Z80OpcodeFunc func;
-	
+
 	int operand_type;
-	char* format;	
-	
+	char* format;
+
 	const struct Z80OpcodeTable* table;
 };
 
@@ -128,12 +128,12 @@ struct Z80OpcodeTable
 
 /* ---------------------------------------------------------
  *  Data operations
- * --------------------------------------------------------- 
- */ 
+ * ---------------------------------------------------------
+ */
 static void write8 (Z80Context* ctx, ushort addr, byte val)
 {
 	ctx->tstates += 3;
-	ctx->memWrite(ctx->memParam, addr, val);	
+	ctx->memWrite(ctx->memParam, addr, val);
 }
 
 
@@ -147,7 +147,7 @@ static void write16 (Z80Context* ctx, ushort addr, ushort val)
 static byte read8 (Z80Context* ctx, ushort addr)
 {
 	ctx->tstates += 3;
-	return ctx->memRead(ctx->memParam, addr);	
+	return ctx->memRead(ctx->memParam, addr);
 }
 
 
@@ -175,9 +175,9 @@ static void ioWrite (Z80Context* ctx, ushort addr, byte val)
 
 /* ---------------------------------------------------------
  *  Flag operations
- * --------------------------------------------------------- 
+ * ---------------------------------------------------------
  */
- 
+
 /** Sets a flag */
 static void setFlag(Z80Context* ctx, Z80Flags flag)
 {
@@ -208,25 +208,25 @@ static int getFlag(Z80Context* ctx, Z80Flags flag)
 
 /* ---------------------------------------------------------
  *  Flag adjustments
- * --------------------------------------------------------- 
+ * ---------------------------------------------------------
  */
 
-static int parityBit[256] = { 
+static int parityBit[256] = {
 	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1,
-	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 
-	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 
-	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 
-	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 
-	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 
-	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 
-	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 
-	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 
-	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 
-	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 
-	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 
-	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 
-	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 
-	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 
+	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0,
+	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0,
+	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1,
+	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0,
+	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1,
+	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1,
+	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0,
+	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0,
+	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1,
+	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1,
+	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0,
+	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1,
+	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0,
+	0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0,
 	1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1 };
 
 
@@ -261,9 +261,9 @@ static void adjustLogicFlag (Z80Context* ctx, int flagH)
 
 /* ---------------------------------------------------------
  *  Condition checks
- * --------------------------------------------------------- 
+ * ---------------------------------------------------------
  */
- 
+
 typedef enum
 {
 	C_,
@@ -274,35 +274,35 @@ typedef enum
 	C_M,
 	C_P,
 	C_PE,
-	C_PO		
+	C_PO
 } Z80Condition;
 
 static int condition(Z80Context* ctx, Z80Condition cond)
 {
 	if (cond == C_)
 		return 1;
-		
+
 	if (cond == C_Z)
 		return GETFLAG(F_Z);
-	
+
 	if (cond == C_NZ)
 		return !GETFLAG(F_Z);
-	
+
 	if (cond == C_C)
 		return GETFLAG(F_C);
-	
+
 	if (cond == C_NC)
 		return !GETFLAG(F_C);
-		
+
 	if (cond == C_M)
 		return GETFLAG(F_S);
-	
+
 	if (cond == C_P)
 		return !GETFLAG(F_S);
-		
+
 	if (cond == C_PE)
 		return GETFLAG(F_PV);
-		
+
 /*	if (cond == C_PO)*/
 		return !GETFLAG(F_PV);
 }
@@ -310,10 +310,10 @@ static int condition(Z80Context* ctx, Z80Condition cond)
 
 /* ---------------------------------------------------------
  *  Generic operations
- * --------------------------------------------------------- 
+ * ---------------------------------------------------------
  */
- 
- 
+
+
 static int doComplement(byte v)
 {
 	if ((v & 0x80) == 0)
@@ -326,7 +326,7 @@ static int doComplement(byte v)
 	return -v;
 }
 
- 
+
 /** Do an arithmetic operation (ADD, SUB, ADC, SBC y CP) */
 static byte doArithmetic (Z80Context* ctx, byte value, int withCarry, int isSub)
 {
@@ -614,7 +614,7 @@ static ushort doPop (Z80Context* ctx)
 static byte doCP_HL(Z80Context * ctx)
 {
 	byte val = read8(ctx, WR.HL);
-	byte result = doArithmetic(ctx, val, 0, 1);	
+	byte result = doArithmetic(ctx, val, 0, 1);
 	adjustFlags(ctx, val);
 	return result;
 }
@@ -626,7 +626,7 @@ static byte doCP_HL(Z80Context * ctx)
  * http://www.worldofspectrum.org/faq/reference/z80reference.htm
  * and verified against the specification in the Zilog
  * Z80 Family CPU User Manual, rev. 04, Dec. 2004, pp. 166-167
- */	
+ */
 
 static void doDAA(Z80Context * ctx) {
   int correction_factor = 0x00;
@@ -640,7 +640,7 @@ static void doDAA(Z80Context * ctx) {
   int a_before = BR.A;
   if(GETFLAG(F_N))
     BR.A -= correction_factor;
-  else              
+  else
     BR.A += correction_factor;
   VALFLAG(F_H, (a_before ^ BR.A) & 0x10);
   VALFLAG(F_C, carry);
@@ -649,14 +649,14 @@ static void doDAA(Z80Context * ctx) {
   VALFLAG(F_PV, parityBit[BR.A]);
   adjustFlags(ctx, BR.A);
 }
- 
+
 #include "codegen/opcodes_impl.c"
 
 
 /* ---------------------------------------------------------
  *  The top-level functions
- * --------------------------------------------------------- 
- */ 
+ * ---------------------------------------------------------
+ */
 
 
 static void do_execute(Z80Context* ctx)
@@ -664,7 +664,7 @@ static void do_execute(Z80Context* ctx)
 	const struct Z80OpcodeTable* current = &opcodes_main;
 	const struct Z80OpcodeEntry* entries = current->entries;
 	Z80OpcodeFunc func;
-	
+
 	byte opcode;
 	int offset = 0;
 	ctx->M1PC = ctx->PC;
@@ -688,7 +688,7 @@ static void do_execute(Z80Context* ctx)
 		INCR;
 		func = entries[opcode].func;
 		if (func != NULL)
-		{			
+		{
 			ctx->PC -= offset;
 			if (ctx->trace)
 				ctx->trace(ctx->memParam);
@@ -708,7 +708,7 @@ static void do_execute(Z80Context* ctx)
 		else
 		{
 			/* NOP */
-			break;	
+			break;
 		}
 	} while(1);
 }
@@ -730,7 +730,7 @@ static void do_nmi(Z80Context* ctx)
 	ctx->IFF2 = ctx->IFF1;
 	ctx->IFF1 = 0;
     doPush(ctx, ctx->PC);
-	ctx->PC = 0x0066;	
+	ctx->PC = 0x0066;
 	ctx->nmi_req = 0;
 	ctx->tstates += 5;
 }
@@ -789,7 +789,7 @@ unsigned Z80ExecuteTStates(Z80Context* ctx, unsigned tstates)
 
 void Z80Debug (Z80Context* ctx, char* dump, char* decode)
 {
-	char tmp[20];	
+	char tmp[20];
 	const struct Z80OpcodeTable* current = &opcodes_main;
 	const struct Z80OpcodeEntry* entries = current->entries;
 	char* fmt;
@@ -798,10 +798,10 @@ void Z80Debug (Z80Context* ctx, char* dump, char* decode)
 	int offset = 0;
 	int PC = ctx->PC;
 	int size = 0;
-	
+
 	if (dump)
 		dump[0] = 0;
-		
+
 	if (decode)
 		decode[0] = 0;
 
@@ -810,14 +810,14 @@ void Z80Debug (Z80Context* ctx, char* dump, char* decode)
 		opcode = read8(ctx, PC + offset);
 
 		size++;
-		
+
 		PC++;
 		fmt = entries[opcode].format;
 		if (fmt != NULL)
-		{			
+		{
 			PC -= offset;
 			parm = read16(ctx, PC);
-		
+
 			if (entries[opcode].operand_type == OP_NONE)
 				size++;
 			else
@@ -827,10 +827,10 @@ void Z80Debug (Z80Context* ctx, char* dump, char* decode)
 				parm &= 0xFF;
 				size--;
 			}
-				
+
 			if (decode)
 				sprintf(decode, fmt, parm);
-			
+
 			PC += offset;
 			break;
 		}
@@ -845,17 +845,17 @@ void Z80Debug (Z80Context* ctx, char* dump, char* decode)
 		{
 			if (decode != NULL)
 				strcpy(decode, "NOP (ignored)");
-			break;	
+			break;
 		}
-	} while(1);	
-	
+	} while(1);
+
 	if (dump)
 	{
 		for (offset = 0; offset < size; offset++)
 		{
 			sprintf(tmp, "%02X", read8(ctx, ctx->PC + offset));
 			strcat(dump, tmp);
-		}		
+		}
 	}
 }
 

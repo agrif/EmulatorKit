@@ -1,4 +1,4 @@
-libz80 - Z80 emulation library 
+libz80 - Z80 emulation library
 ===============================
 
 The original one appears to be dead - at least nobody responded to the
@@ -36,5 +36,3 @@ Authors
 Gabriel Gambetta (gabriel.gambetta@gmail.com)
 
 Wayne Conrad (wconrad@yagni.com) - MAJOR fixes and emulation improvements.
-
-
