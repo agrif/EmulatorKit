@@ -36,7 +36,7 @@ extern fdc_byte fdd_drive_status(FLOPPY_DRIVE *fd);
 void fdl_reset(FLOPPY_DRIVE *fd)
 {
 	LIBDSK_FLOPPY_DRIVE *fdl = (LIBDSK_FLOPPY_DRIVE *)fd;
-        fdl->fdl_filename[0] = 0;	
+        fdl->fdl_filename[0] = 0;
 	fdl->fdl_type = NULL;
 	fdl->fdl_compress = NULL;
         fdl->fdl_diskp = NULL;
@@ -48,14 +48,14 @@ static int fdl_regeom(LIBDSK_FLOPPY_DRIVE *fdl)
 	dsk_err_t err;
 
 	err = dsk_getgeom(fdl->fdl_diskp, &fdl->fdl_diskg);
-	// Note that some errors (which could result from 
+	// Note that some errors (which could result from
 	// unformatted discs) are ignored here.
-	if (err && 
-	    err != DSK_ERR_NOADDR && 
+	if (err &&
+	    err != DSK_ERR_NOADDR &&
 	    err != DSK_ERR_NODATA &&
 	    err != DSK_ERR_BADFMT)
 	{
-		fdc_dprintf(0, "Could not get geometry for %s: %s.\n", 
+		fdc_dprintf(0, "Could not get geometry for %s: %s.\n",
 			fdl->fdl_filename, dsk_strerror(err));
 		fdl_reset(&fdl->fdl);
 		return err;
@@ -74,15 +74,15 @@ static int fdl_isready(FLOPPY_DRIVE *fd)
 
 	if (!fd->fd_motor) return 0;	/* Motor is not running */
 
-	if (fdl->fdl_diskp) return 1;		 /* DSK file is open and OK */	
+	if (fdl->fdl_diskp) return 1;		 /* DSK file is open and OK */
 	if (fdl->fdl_filename[0] == 0) return 0; /* No filename */
 
-	err = dsk_open(&fdl->fdl_diskp, fdl->fdl_filename, fdl->fdl_type, 
+	err = dsk_open(&fdl->fdl_diskp, fdl->fdl_filename, fdl->fdl_type,
 			fdl->fdl_compress);
 
 	if (err || !fdl->fdl_diskp)
 	{
-		fdc_dprintf(0, "Could not open %s: %s.\n", 
+		fdc_dprintf(0, "Could not open %s: %s.\n",
 			fdl->fdl_filename, dsk_strerror(err));
 		fdl_reset(fd);
 		return 0;
@@ -102,7 +102,7 @@ static fd_err_t fdl_xlt_error(dsk_err_t err)
 		case DSK_ERR_DATAERR:   return FD_E_DATAERR;
 		case DSK_ERR_NOTRDY:    return FD_E_NOTRDY;
 		case DSK_ERR_RDONLY:    return FD_E_READONLY;
-	}	
+	}
 	// unknown error
 	return FD_E_NOSECTOR;
 }
@@ -125,7 +125,7 @@ static fd_err_t fdl_seek_cylinder(FLOPPY_DRIVE *fd, int cylinder)
 	if (err == DSK_ERR_NOTIMPL || err == DSK_ERR_OK)
 	{
 		fdc_dprintf(6, "fdl_seek_cylinder: OK\n");
-		fd->fd_cylinder = req_cyl;	
+		fd->fd_cylinder = req_cyl;
 		return 0;
 	}
 	fdc_dprintf(6, "fdl_seek_cylinder: fails, LIBDSK error %d\n", err);
@@ -149,7 +149,7 @@ static fd_err_t fdl_read_id(FLOPPY_DRIVE *fd, int head, int sector, fdc_byte *bu
 		buf[0] = fd->fd_cylinder;
 		buf[1] = head;
 		buf[2] = sector;
-		buf[3] = dsk_get_psh(fdl->fdl_diskg.dg_secsize);	
+		buf[3] = dsk_get_psh(fdl->fdl_diskg.dg_secsize);
 		return 0;
 	}
 	if (err) return fdl_xlt_error(err);
@@ -158,19 +158,19 @@ static fd_err_t fdl_read_id(FLOPPY_DRIVE *fd, int head, int sector, fdc_byte *bu
 	buf[1] = fmt.fmt_head;
 	buf[2] = fmt.fmt_sector;
 	buf[3] = dsk_get_psh(fmt.fmt_secsize);
-	return 0;	
+	return 0;
 }
 
 
 /* Read a sector */
-static fd_err_t fdl_read_sector(FLOPPY_DRIVE *fd, int xcylinder, int xhead, 
+static fd_err_t fdl_read_sector(FLOPPY_DRIVE *fd, int xcylinder, int xhead,
 		int head,  int sector, fdc_byte *buf, int len, int *deleted,
 		int skip_deleted, int mfm, int multi)
 {
 	LIBDSK_FLOPPY_DRIVE *fdl = (LIBDSK_FLOPPY_DRIVE *)fd;
 	dsk_err_t err;
 
-	fdc_dprintf(4, "fdl_read_sector: cyl=%d xc=%d xh=%d h=%d s=%d len=%d\n", 
+	fdc_dprintf(4, "fdl_read_sector: cyl=%d xc=%d xh=%d h=%d s=%d len=%d\n",
 			fd->fd_cylinder, xcylinder, xhead, head, sector, len);
 	if (!fdl->fdl_diskp) return FD_E_NOTRDY;
 
@@ -188,19 +188,19 @@ static fd_err_t fdl_read_sector(FLOPPY_DRIVE *fd, int xcylinder, int xhead,
 		if (deleted && *deleted) return FD_E_NOADDR;
 		err = dsk_pread(fdl->fdl_diskp, &fdl->fdl_diskg, buf,
 			fd->fd_cylinder, head, sector);
-	}	
+	}
 	return fdl_xlt_error(err);
-}		
+}
 
 /* Read a track */
 static fd_err_t fdl_read_track(FLOPPY_DRIVE *fd, int xcylinder, int xhead,
                 int head,  fdc_byte *buf, int *len)
 {
 	LIBDSK_FLOPPY_DRIVE *fdl = (LIBDSK_FLOPPY_DRIVE *)fd;
-	fd_err_t err; 
+	fd_err_t err;
 
 	// Use LIBDSK's track-reading abilities
-	fdc_dprintf(4, "fdl_read_track: xc=%d xh=%d h=%d\n", 
+	fdc_dprintf(4, "fdl_read_track: xc=%d xh=%d h=%d\n",
 			xcylinder, xhead, head);
 	if (!fdl->fdl_diskp) return FD_E_NOTRDY;
 
@@ -212,14 +212,14 @@ static fd_err_t fdl_read_track(FLOPPY_DRIVE *fd, int xcylinder, int xhead,
 
 
 /* Write a sector */
-static fd_err_t fdl_write_sector(FLOPPY_DRIVE *fd, int xcylinder, int xhead, 
-		int head,  int sector, fdc_byte *buf, int len, int deleted, 
+static fd_err_t fdl_write_sector(FLOPPY_DRIVE *fd, int xcylinder, int xhead,
+		int head,  int sector, fdc_byte *buf, int len, int deleted,
 		int skip_deleted, int mfm, int multi)
 {
 	LIBDSK_FLOPPY_DRIVE *fdl = (LIBDSK_FLOPPY_DRIVE *)fd;
 	dsk_err_t err;
 
-	fdc_dprintf(4, "fdl_write_sector: xc=%d xh=%d h=%d s=%d\n", 
+	fdc_dprintf(4, "fdl_write_sector: xc=%d xh=%d h=%d s=%d\n",
 			xcylinder, xhead, head, sector);
 	if (!fdl->fdl_diskp) return FD_E_NOTRDY;
 
@@ -232,12 +232,12 @@ static fd_err_t fdl_write_sector(FLOPPY_DRIVE *fd, int xcylinder, int xhead,
 	if (err == DSK_ERR_NOTIMPL)
 	{
 		if (deleted) return FD_E_NOADDR;
-	
+
 		err = dsk_pwrite(fdl->fdl_diskp, &fdl->fdl_diskg, buf,
 			fd->fd_cylinder, head, sector);
-	}	
+	}
 	return fdl_xlt_error(err);
-}		
+}
 
 /* Format a track on a DSK. Can grow the DSK file. */
 static fd_err_t fdl_format_track(FLOPPY_DRIVE *fd, int head,
@@ -247,8 +247,8 @@ static fd_err_t fdl_format_track(FLOPPY_DRIVE *fd, int head,
 	int n, os;
 	dsk_err_t err;
 	DSK_FORMAT *formbuf;
-	
-	fdc_dprintf(4, "fdl_format_track: cyl=%d h=%d s=%d\n", 
+
+	fdc_dprintf(4, "fdl_format_track: cyl=%d h=%d s=%d\n",
 			fd->fd_cylinder, head, sectors);
 	if (!fdl->fdl_diskp) return FD_E_NOTRDY;
 
@@ -269,17 +269,17 @@ static fd_err_t fdl_format_track(FLOPPY_DRIVE *fd, int head,
 	fdl->fdl_diskg.dg_sectors = os;
 
 	free(formbuf);
-	// 
-	// If track 0 has been reformatted, try to redetermine the 
+	//
+	// If track 0 has been reformatted, try to redetermine the
 	// geometry.
 	//
 	if (fd->fd_cylinder == 0 && !fd->fd_cylinder) fdl_regeom(fdl);
-	if (!err) 
+	if (!err)
 	{
 		return 0;
-	}	
+	}
 	return fdl_xlt_error(err);
-}		
+}
 
 /* Has this floppy been written to since it was inserted? */
 static int fdl_dirty(FLOPPY_DRIVE *fd)
@@ -317,7 +317,7 @@ static fdc_byte fdl_drive_status(FLOPPY_DRIVE *fd)
 	{
 		err = dsk_drive_status(fdl->fdl_diskp, &fdl->fdl_diskg, 0, &st);
 	}
-	else 
+	else
 	{
 		st = 0;
 		if (fdl_isready(fd)) st = DSK_ST3_READY;
@@ -366,7 +366,7 @@ void fdl_set_datarate(FLOPPY_DRIVE *fd, fdc_byte rate)
 
 
 
-static FLOPPY_DRIVE_VTABLE fdv_libdsk = 
+static FLOPPY_DRIVE_VTABLE fdv_libdsk =
 {
 	fdl_seek_cylinder,
 	fdl_read_id,
@@ -410,7 +410,7 @@ fd_err_t fdl_new_dsk(LIBDSK_FLOPPY_DRIVE *fdl)
 }
 
 /* Get / set DSK file associated with this drive.
- * Note that doing fdl_setfilename() causes an implicit eject on the 
+ * Note that doing fdl_setfilename() causes an implicit eject on the
  * previous disc in the drive. */
 char *   fdl_getfilename(FDRV_PTR fd)
 {

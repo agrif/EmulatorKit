@@ -45,8 +45,8 @@ lib765_default_error_function(int debuglevel, char *fmt, va_list ap)
 {
 	/* Let's say default action is level 1; showing all messages
 	 * would be just too horribly disturbing. */
-	
-	if (debuglevel > 9999) return;	
+
+	if (debuglevel > 9999) return;
 	fprintf( stderr, "lib765 level:%d error: ", debuglevel );
 	vfprintf( stderr, fmt, ap );
 	fprintf( stderr, "\n" );

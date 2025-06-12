@@ -33,17 +33,17 @@
 typedef struct floppy_drive_vtable
 {
 	fd_err_t  (*fdv_seek_cylinder)(FDRV_PTR fd, int cylinder);
-	fd_err_t  (*fdv_read_id)      (FDRV_PTR fd, int head, 
+	fd_err_t  (*fdv_read_id)      (FDRV_PTR fd, int head,
                                  int sector, fdc_byte *buf);
-	fd_err_t  (*fdv_read_sector  )(FDRV_PTR fd, int xcylinder, 
-		int xhead, int head, int sector, fdc_byte *buf, int len, 
+	fd_err_t  (*fdv_read_sector  )(FDRV_PTR fd, int xcylinder,
+		int xhead, int head, int sector, fdc_byte *buf, int len,
 		int *deleted, int skip_deleted, int mfm, int multi);
 	fd_err_t  (*fdv_read_track   )(FDRV_PTR fd, int xcylinder,
 		int xhead, int head, fdc_byte *buf, int *len);
 	fd_err_t  (*fdv_write_sector )(FDRV_PTR fd, int xcylinder,
 		int xhead, int head, int sector, fdc_byte *buf, int len,
 		int deleted, int skip_deleted, int mfm, int multi);
-	fd_err_t (*fdv_format_track )(FDRV_PTR fd, int head, 
+	fd_err_t (*fdv_format_track )(FDRV_PTR fd, int head,
 		int sectors, fdc_byte *buf, fdc_byte filler);
 	fdc_byte (*fdv_drive_status )(FDRV_PTR fd);
 	int      (*fdv_isready)(FDRV_PTR fd);
@@ -58,41 +58,41 @@ typedef struct floppy_drive_vtable
 
 typedef struct floppy_drive
 {
-/* PRIVATE variables 
+/* PRIVATE variables
  * The following points to the drive's method table. You should not need
  * to use this; instead, use the fd_*() wrapper functions below. */
-	FLOPPY_DRIVE_VTABLE * fd_vtable;	
+	FLOPPY_DRIVE_VTABLE * fd_vtable;
 /* PUBLIC members */
-	/* You should set the first three of these immediately after calling 
+	/* You should set the first three of these immediately after calling
          * fd_init() or fdd_init() on a drive.*/
 	int fd_type;	  /* 0 for none, 1 for 3", 2 for 3.5", 3 for 5.25" */
 	int fd_heads;	  /* No. of heads in the drive: 1 or 2 */
-	int fd_cylinders; /* No. of cylinders the drive can access: 
+	int fd_cylinders; /* No. of cylinders the drive can access:
 			   * eg: a nominally 40-track drive can usually go up
                            * to 42 tracks with a bit of "persuasion" */
 	int fd_readonly;  /* Is the drive (or the disc therein) set to R/O? */
-	int fd_changed;	  /* Default changeline implementation. This will be 
+	int fd_changed;	  /* Default changeline implementation. This will be
 			   * set to 1 when drive is ejected, 0 at controller
-			   * partial reset. If you can write a better 
-			   * implementation of the changeline, override 
+			   * partial reset. If you can write a better
+			   * implementation of the changeline, override
 			   * fdv_changed(). */
 
 /* READONLY variables */
 	int fd_motor;	  /* Is the motor for this drive running? */
 	int fd_cylinder;  /* Current cylinder. Note that if the drive is
-			   * double-stepping, this is the "real" cylinder - 
-			   * so it could = 24 and be reading cylinder 12 
+			   * double-stepping, this is the "real" cylinder -
+			   * so it could = 24 and be reading cylinder 12
                            * of a 40-track DSK file. */
 } FLOPPY_DRIVE;
 
-/* Subclass of FLOPPY_DRIVE: a drive which emulates discs using the CPCEMU 
+/* Subclass of FLOPPY_DRIVE: a drive which emulates discs using the CPCEMU
  * .DSK format */
 
 typedef struct dsk_floppy_drive
 {
 /* PUBLIC variables: */
 	FLOPPY_DRIVE fdd;		/* Base class */
-	char  fdd_filename[PATH_MAX];	/* Filename to .DSK file. Before 
+	char  fdd_filename[PATH_MAX];	/* Filename to .DSK file. Before
 					 * changing this call fd_eject() on
                                          * the drive */
 /* PRIVATE variables: */
@@ -107,13 +107,13 @@ typedef struct libdsk_floppy_drive
 {
 /* PUBLIC variables: */
 	FLOPPY_DRIVE fdl;		/* Base class */
-	char  fdl_filename[PATH_MAX];	/* Filename to .DSK file. Before 
+	char  fdl_filename[PATH_MAX];	/* Filename to .DSK file. Before
 					 * changing this call fd_eject() on
                                          * the drive */
 	const char  *fdl_type;		/* LIBDSK drive type, NULL for auto */
 	const char  *fdl_compress;	/* LIBDSK compression, NULL for auto */
 /* PRIVATE variables: */
-	DSK_PDRIVER  fdl_diskp;	
+	DSK_PDRIVER  fdl_diskp;
 	DSK_GEOMETRY fdl_diskg;		/* Autoprobed geometry */
 } LIBDSK_FLOPPY_DRIVE;
 #endif	/* ifdef DSK_ERR_OK */
@@ -135,15 +135,15 @@ typedef struct fdc_765
 {
     /* PRIVATE variables */
 	int fdc_interrupting;	/* 0 => Not interrupting
-				 * 1 => Entering result phase of 
+				 * 1 => Entering result phase of
 				 *      Read/Write/Format/Scan
-				 * 2 => Ready for data transfer 
-				 *      (execution phase) 
+				 * 2 => Ready for data transfer
+				 *      (execution phase)
 				 * 4 => End of Seek/Recalibrate command */
 	/* The results from the SPECIFY command */
 	int fdc_specify[2];
 	/* The last sector for which a DD READ ID request was made */
-	int fdc_lastidread; 
+	int fdc_lastidread;
 
 	/* Current WRITE command is for deleted data? */
 	int fdc_write_deleted;
@@ -155,8 +155,8 @@ typedef struct fdc_765
 	fdc_byte fdc_cmd_buf[20];	/* The command as a byte string */
 
 	/* Execution phase buffer */
-	/* [0.4.2] If we are doing multisector reads, this needs to hold a 
-	 * whole track's worth of sectors: let's say 16k. (A normal HD disc 
+	/* [0.4.2] If we are doing multisector reads, this needs to hold a
+	 * whole track's worth of sectors: let's say 16k. (A normal HD disc
 	 * holds 9k / track) */
 	fdc_byte fdc_exec_buf[16384];
 	int  fdc_exec_len;	/* No. of bytes remaining to transfer */
@@ -164,10 +164,10 @@ typedef struct fdc_765
 
 	/* Results phase buffer */
 	fdc_byte fdc_result_buf[20];
-	int fdc_result_len;	/* No. of bytes remaining to transfer */	
+	int fdc_result_len;	/* No. of bytes remaining to transfer */
 	int fdc_result_pos;	/* Position in buffer */
 
-	int fdc_terminal_count;	/* Set to abort a transfer */	
+	int fdc_terminal_count;	/* Set to abort a transfer */
 	int fdc_isr_countdown;	/* Countdown to interrupt */
 
 	int fdc_dor;		/* Are we using that horrible kludge, the
@@ -191,6 +191,3 @@ typedef struct fdc_765
 		/* The FDC's four drives. You must set these pointers */
 
 } FDC_765;
-
-
-

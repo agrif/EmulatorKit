@@ -31,15 +31,15 @@ extern "C" {
 #include <stdarg.h>
 
 /*
-    Functions which your program should provide are marked here by 
-    the word EXT: 
+    Functions which your program should provide are marked here by
+    the word EXT:
 
     NOTE: This library emulates enough of a uPD765A controller (aka Intel 8272)
     for an Amstrad CP/M BIOS. Features the Amstrad BIOS does not use, such as:
- 
+
     * DMA mode
     * Multitrack mode
-    * Multisector reads/writes 
+    * Multisector reads/writes
     * Read/Write deleted data
 
     are not implemented.
@@ -51,8 +51,8 @@ extern "C" {
 #define LONGER_TIMEOUT  1333333L
 
 /* EXT: called by the FDC to print debugging messages
- * 
- * We assume that the normal debug level is 0. As we get more and more 
+ *
+ * We assume that the normal debug level is 0. As we get more and more
  * nitpicky, the debug level gets higher.
  *
  * Level 5 dumps out all command sequences sent to the FDC.
@@ -100,19 +100,19 @@ struct fdc_765;
 
 /********************************** CLASSES ********************************/
 
-/* This is yet another attempt to write object-oriented C. 
+/* This is yet another attempt to write object-oriented C.
  *
- * Variables in these structs are marked as PUBLIC, READONLY or PRIVATE. 
+ * Variables in these structs are marked as PUBLIC, READONLY or PRIVATE.
  * Your program can play with PUBLIC variables how it likes, but should
  * not alter READONLY ones, and it shouldn't touch the PRIVATE ones at all.
  *
- * Use FLOPPY_DRIVE for dummy drives (units which aren't connected at all) 
+ * Use FLOPPY_DRIVE for dummy drives (units which aren't connected at all)
  * and DSK_FLOPPY_DRIVE / LIBDSK_FLOPPY_DRIVE for drives that are real.
- * 
+ *
  * These structures MUST be initialised (see fd_init() below) before use.
  */
 
-/* lib765 v0.1.0: Implementation details hidden away behind opaque 
+/* lib765 v0.1.0: Implementation details hidden away behind opaque
  * pointers; accessor functions used instead */
 
 typedef struct floppy_drive *FDRV_PTR;
@@ -121,7 +121,7 @@ typedef struct floppy_drive *FDRV_PTR;
 
 int fd_gettype    (FDRV_PTR fd); /* 0 for none, 1 for 3", 2 for 3.5", 3 for 5.25" */
 int fd_getheads   (FDRV_PTR fd); /* No. of heads in the drive: 1 or 2 */
-int fd_getcyls    (FDRV_PTR fd); /* No. of cylinders the drive can access: 
+int fd_getcyls    (FDRV_PTR fd); /* No. of cylinders the drive can access:
                                   * eg: a nominally 40-track drive can usually go up
                                   * to 42 tracks with a bit of "persuasion" */
 int fd_getreadonly(FDRV_PTR fd); /* Is the drive (or the disc therein) set to R/O? */
@@ -152,18 +152,18 @@ FDRV_PTR fd9_getproxy(FDRV_PTR self);
 void     fd9_setproxy(FDRV_PTR self, FDRV_PTR PROXY);
 
 
-/* Subclass of FLOPPY_DRIVE: a drive which emulates discs using the CPCEMU 
+/* Subclass of FLOPPY_DRIVE: a drive which emulates discs using the CPCEMU
  * .DSK format */
 
 FDRV_PTR fd_newdsk(void);
 
 /* Get / set DSK file associated with this drive.
- * Note that doing fdd_setfilename() causes an implicit eject on the 
+ * Note that doing fdd_setfilename() causes an implicit eject on the
  * previous disc in the drive. */
-char *   fdd_getfilename(FDRV_PTR fd);		
+char *   fdd_getfilename(FDRV_PTR fd);
 void	 fdd_setfilename(FDRV_PTR fd, const char *s);
 
-/* This function is specific to DSK-type drives, and is not called by the 
+/* This function is specific to DSK-type drives, and is not called by the
  * FDC. It is intended for use by administration interfaces */
 fd_err_t fdd_new_dsk(FDRV_PTR fd);
 
@@ -174,16 +174,16 @@ fd_err_t fdd_new_dsk(FDRV_PTR fd);
 FDRV_PTR fd_newldsk(void);
 
 /* Get / set DSK file associated with this drive.
- * Note that doing fdd_setfilename() causes an implicit eject on the 
+ * Note that doing fdd_setfilename() causes an implicit eject on the
  * previous disc in the drive. */
-char *   fdl_getfilename(FDRV_PTR fd);		
+char *   fdl_getfilename(FDRV_PTR fd);
 void	 fdl_setfilename(FDRV_PTR fd, const char *s);
 
 /* Set the LIBDSK drive type. NULL for automatic */
-const char *   fdl_gettype(FDRV_PTR fd);		
+const char *   fdl_gettype(FDRV_PTR fd);
 void	 fdl_settype(FDRV_PTR fd, const char *s);
 /* Set the LIBDSK compression type. NULL for automatic */
-const char *   fdl_getcomp(FDRV_PTR fd);		
+const char *   fdl_getcomp(FDRV_PTR fd);
 void	 fdl_setcomp(FDRV_PTR fd, const char *s);
 #endif
 
@@ -214,37 +214,37 @@ FDRV_PTR fdc_getdrive(FDC_PTR self, int drive);
 void fdc_setdrive(FDC_PTR self, int drive, FDRV_PTR ptr);
 
 
-/*********************** WRAPPER FUNCTIONS ********************************/ 
+/*********************** WRAPPER FUNCTIONS ********************************/
 
 /* Wrappers for the floppy's member functions */
 /* Seek to a cylinder */
 fd_err_t fd_seek_cylinder(FDRV_PTR fd, int cylinder);
-/* Read ID from current cylinder, head "head". "sector" is a number 
- * which should increase every time you call this function, to simulate 
+/* Read ID from current cylinder, head "head". "sector" is a number
+ * which should increase every time you call this function, to simulate
  * the rotation of the disc. Fills the buffer at "buf" with the sector ID. */
 fd_err_t fd_read_id(FDRV_PTR fd, int head, int sector, fdc_byte *buf);
 /* Read a sector. xcylinder and xhead are values expected from the sector ID;
- * while "head" and "sector" are the actual place to look on the disc. 
+ * while "head" and "sector" are the actual place to look on the disc.
  * Data will be returned to "buf", maximum "len" bytes. */
 fd_err_t fd_read_sector(FDRV_PTR fd, int xcylinder,
-                int xhead, int head, int sector, fdc_byte *buf, 
+                int xhead, int head, int sector, fdc_byte *buf,
 		int len, int *deleted, int skip_deleted, int mfm, int multi);
 /* Write a sector; parameters as for "read sector" */
 fd_err_t  fd_write_sector(FDRV_PTR fd, int xcylinder,
-                int xhead, int head, int sector, fdc_byte *buf, int len, 
+                int xhead, int head, int sector, fdc_byte *buf, int len,
 		int deleted, int skip_deleted, int mfm, int multi);
 /* Read an entire track; parameters as for "read sector" */
 fd_err_t  fd_read_track   (struct floppy_drive *fd, int xcylinder,
                 int xhead, int head, fdc_byte *buf, int *len);
-/* Format a track of "sectors" sectors, on the current cylinder. "track" 
- * holds the sector ID information, and "filler" is the filler byte */ 
-fd_err_t  fd_format_track (struct floppy_drive *fd, int head, 
+/* Format a track of "sectors" sectors, on the current cylinder. "track"
+ * holds the sector ID information, and "filler" is the filler byte */
+fd_err_t  fd_format_track (struct floppy_drive *fd, int head,
 		int sectors, fdc_byte *track, fdc_byte filler);
 /* Get the drive status - bits 7-3 of the DD_DRIVE_STATUS value */
 fdc_byte fd_drive_status(FDRV_PTR fd);
 /* Return 1 if the drive is ready, 0 if it is not */
 fdc_byte fd_isready(FDRV_PTR fd);
-/* Return 1 if the disc has been changed (defined as the disc being ejected 
+/* Return 1 if the disc has been changed (defined as the disc being ejected
  * since last FDC reset). For PcW16 changeline support. */
 fdc_byte fd_changed(FDRV_PTR fd);
 /* Has this floppy been written to since it was inserted? */
@@ -259,7 +259,7 @@ void fd_reset(FDRV_PTR fd);
 
 
 
-/* Interface to the FDC itself */ 
+/* Interface to the FDC itself */
 
 /* Reset the FDC. MUST be called to initialise the FDC structure */
 void fdc_reset     (FDC_PTR self);
@@ -284,7 +284,6 @@ void fdc_write_drr(FDC_PTR self, fdc_byte value);
 
 #ifdef __cplusplus
 }
-#endif                                                                          
+#endif
 
 #endif /* ndef FDC765_H_INCLUDED */
-

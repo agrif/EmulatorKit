@@ -24,7 +24,7 @@
 
 /*
  * Default implementations of the FDC functions. If the pointer to the drive
- * or the function pointer is null, it returns results as if the drive 
+ * or the function pointer is null, it returns results as if the drive
  * were not present.
  */
 
@@ -39,7 +39,7 @@ fd_err_t fd_seek_cylinder(FDRV_PTR fd, int cylinder)
 }
 
 
-/* Read the ID of the next sector to pass under the head. "sector" is 
+/* Read the ID of the next sector to pass under the head. "sector" is
  * suggested since most emulated drives don't actually emulate the idea
  * of a head being over one sector at a time */
 fd_err_t  fd_read_id(FDRV_PTR fd, int head, int sector, fdc_byte *buf)
@@ -51,22 +51,22 @@ fd_err_t  fd_read_id(FDRV_PTR fd, int head, int sector, fdc_byte *buf)
 	return FD_E_NOTRDY;
 }
 
-/* Read a sector. xcylinder and xhead are the expected values for the 
+/* Read a sector. xcylinder and xhead are the expected values for the
  * sector header; head is the actual head to use. */
-fd_err_t  fd_read_sector(FDRV_PTR fd, int xcylinder, 
-		int xhead, int head, int sector, fdc_byte *buf, int len, 
+fd_err_t  fd_read_sector(FDRV_PTR fd, int xcylinder,
+		int xhead, int head, int sector, fdc_byte *buf, int len,
 		int *deleted, int skip_deleted, int mfm, int multi)
 {
 	if (fd && (fd->fd_vtable->fdv_read_sector))
 	{
-		return (*fd->fd_vtable->fdv_read_sector)(fd, xcylinder, 
-			xhead, head, sector, buf, len, deleted, 
+		return (*fd->fd_vtable->fdv_read_sector)(fd, xcylinder,
+			xhead, head, sector, buf, len, deleted,
 			skip_deleted, mfm, multi);
 	}
 	return FD_E_NOTRDY;
 }
 
-/* Read a track. xcylinder and xhead are the expected values for the 
+/* Read a track. xcylinder and xhead are the expected values for the
  * sector header; head is the actual head to use. */
 fd_err_t  fd_read_track(FDRV_PTR fd, int xcylinder,
                 int xhead, int head, fdc_byte *buf, int *len)
@@ -81,16 +81,16 @@ fd_err_t  fd_read_track(FDRV_PTR fd, int xcylinder,
 
 
 
-/* Write a sector. xcylinder and xhead are the expected values for the 
+/* Write a sector. xcylinder and xhead are the expected values for the
  * sector header; head is the actual head to use. */
 fd_err_t  fd_write_sector(FDRV_PTR fd, int xcylinder,
-                int xhead, int head, int sector, fdc_byte *buf, int len, 
+                int xhead, int head, int sector, fdc_byte *buf, int len,
 		int deleted, int skip_deleted, int mfm, int multi)
 {
         if (fd && (fd->fd_vtable->fdv_write_sector))
         {
-                return (*fd->fd_vtable->fdv_write_sector)(fd, xcylinder, 
-                        xhead, head, sector, buf, len, deleted, 
+                return (*fd->fd_vtable->fdv_write_sector)(fd, xcylinder,
+                        xhead, head, sector, buf, len, deleted,
 			skip_deleted, mfm, multi);
         }
         return FD_E_NOTRDY;
@@ -133,7 +133,7 @@ fdc_byte fd_isready(FDRV_PTR fd)
 /* Is the drive ready? */
 fdc_byte fd_changed(FDRV_PTR fd)
 {
-	if (fd && (fd->fd_vtable->fdv_changed)) 
+	if (fd && (fd->fd_vtable->fdv_changed))
 			return (*fd->fd_vtable->fdv_changed)(fd);
 	else if (fd)	return fd->fd_changed;
 	return 0;
@@ -149,23 +149,23 @@ int fd_dirty(FDRV_PTR fd)
 /* Eject under computer's control */
 void fd_eject(FDRV_PTR fd)
 {
-	if (fd && (fd->fd_vtable->fdv_eject)) 
+	if (fd && (fd->fd_vtable->fdv_eject))
 		(*fd->fd_vtable->fdv_eject)(fd);
 	if (fd) fd->fd_changed = 1;
-	
+
 }
 
 /* Reset the drive */
 void fd_reset(FDRV_PTR fd)
 {
-	if (fd && (fd->fd_vtable->fdv_reset)) 
+	if (fd && (fd->fd_vtable->fdv_reset))
 		(*fd->fd_vtable->fdv_reset)(fd);
 }
 
 /* Set data rate */
 void fd_set_datarate(FDRV_PTR fd, fdc_byte rate)
 {
-	if (fd && (fd->fd_vtable->fdv_set_datarate)) 
+	if (fd && (fd->fd_vtable->fdv_set_datarate))
 		(*fd->fd_vtable->fdv_set_datarate)(fd, rate);
 }
 
@@ -184,7 +184,7 @@ static fd_err_t n9256_seek_cylinder(FDRV_PTR fd, int cylinder)
 static fdc_byte n9256_drive_status(FDRV_PTR fd)
 {
 	fdc_byte b = 0;
-	
+
 	NC9_FLOPPY_DRIVE *nc9 = (NC9_FLOPPY_DRIVE *)fd;
 	if (nc9->nc9_fdd) b = fd_drive_status(nc9->nc9_fdd);
 
@@ -222,7 +222,7 @@ FDRV_PTR fd_inew(size_t size)
 	fd->fd_cylinders = 0;
 	fd->fd_motor     = 0;
 	fd->fd_cylinder  = 0;
-	fd->fd_readonly  = 0;	
+	fd->fd_readonly  = 0;
 	fd->fd_vtable    = &dummy_vtbl;
 	return fd;
 }
@@ -241,7 +241,7 @@ FDRV_PTR fd_newnc9(FDRV_PTR fd)
 	((NC9_FLOPPY_DRIVE *)p)->nc9_fdd = fd;
 //
 // These are the only commands which CP/M executes on a 9256 dummy drive,
-// and so these are the only ones I'm going to pass through to the 
+// and so these are the only ones I'm going to pass through to the
 // underlying drive.
 //
 	p->fd_vtable    = &d9256_vtbl;
@@ -253,7 +253,7 @@ void     fd_destroy(FDRV_PTR *fd)
 {
 	if (!(*fd)) return;
 
-	fd_eject(*fd);	
+	fd_eject(*fd);
 	if ((*fd)->fd_vtable->fdv_destroy)
 	{
 		(*(*fd)->fd_vtable->fdv_destroy)(*fd);
@@ -263,7 +263,7 @@ void     fd_destroy(FDRV_PTR *fd)
 }
 
 
-int fd_gettype    (FDRV_PTR fd) { return fd->fd_type; } 
+int fd_gettype    (FDRV_PTR fd) { return fd->fd_type; }
 int fd_getheads   (FDRV_PTR fd) { return fd->fd_heads; }
 int fd_getcyls    (FDRV_PTR fd) { return fd->fd_cylinders; }
 int fd_getreadonly(FDRV_PTR fd) { return fd->fd_readonly; }
