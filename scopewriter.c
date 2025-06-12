@@ -17,12 +17,12 @@
 
 struct scopewriter
 {
-    uint8_t mem[32];
-    uint8_t ptr;
-    uint8_t data;
-    uint8_t switches;
-    /* Fudged for now */
-    uint32_t raster[256 * 32];
+	uint8_t mem[32];
+	uint8_t ptr;
+	uint8_t data;
+	uint8_t switches;
+	/* Fudged for now */
+	uint32_t raster[256 * 32];
 };
 
 
@@ -164,61 +164,61 @@ static const uint8_t sw_font[] = {
 
 static void sw_raster(struct scopewriter *sw, unsigned pos, uint8_t c)
 {
-    const uint8_t *fontptr = sw_font + 16 * (c & 0x3F);
-    uint32_t *rptr = sw->raster + (pos << 3);
-    unsigned int x,y;
-    uint8_t bits;
-    uint32_t deltamod;
+	const uint8_t *fontptr = sw_font + 16 * (c & 0x3F);
+	uint32_t *rptr = sw->raster + (pos << 3);
+	unsigned int x,y;
+	uint8_t bits;
+	uint32_t deltamod;
 
-    for (y = 0; y < 16; y++) {
-        for (x = 0; x < 8; x++)
-            *rptr++ = 0xFF224422;
-        rptr += 248;
-    }
-    for (y = 0; y < 16; y++) {
-        bits = *fontptr++;
-        for (x = 0; x < 8; x++) {
-            if (bits & 0x80)
-                *rptr++ = 0xFF66CC66;
-            else
-                *rptr++ = 0xFF224422;
-            bits <<= 1;
-        }
-        rptr += 248;	/* We moved on 8 in the loop */
-    }
+	for (y = 0; y < 16; y++) {
+		for (x = 0; x < 8; x++)
+			*rptr++ = 0xFF224422;
+		rptr += 248;
+	}
+	for (y = 0; y < 16; y++) {
+		bits = *fontptr++;
+		for (x = 0; x < 8; x++) {
+			if (bits & 0x80)
+				*rptr++ = 0xFF66CC66;
+			else
+				*rptr++ = 0xFF224422;
+			bits <<= 1;
+		}
+		rptr += 248;	/* We moved on 8 in the loop */
+	}
 
-    for (x = 0; x < 8; x++) {
-        deltamod = 0x00000000;
-        rptr = sw->raster + (pos << 3) + x + 31 * 256;
-        for (y = 0; y < 32; y++) {
-            if (((*rptr >> 8) & 0xFF) >= 0xCC)
-                deltamod += 0x00000200;
-            *rptr += deltamod;
-            if (y == 16 + ((((pos << 3) + x) * 17) & 3))
-                deltamod += deltamod;
-            if (y == 24 + ((((pos << 3) + x) * 13) & 3))
-                deltamod += deltamod;
-            rptr -= 256;
-        }
-    }
+	for (x = 0; x < 8; x++) {
+		deltamod = 0x00000000;
+		rptr = sw->raster + (pos << 3) + x + 31 * 256;
+		for (y = 0; y < 32; y++) {
+			if (((*rptr >> 8) & 0xFF) >= 0xCC)
+				deltamod += 0x00000200;
+			*rptr += deltamod;
+			if (y == 16 + ((((pos << 3) + x) * 17) & 3))
+				deltamod += deltamod;
+			if (y == 24 + ((((pos << 3) + x) * 13) & 3))
+				deltamod += deltamod;
+			rptr -= 256;
+		}
+	}
 }
 
 static void sw_data_update(struct scopewriter *sw)
 {
-    if (sw->switches & SW_RD)
-        return;
-    /* This next bit really hasppens with the sweep not instantly but this
-       will do for the moment TODO */
-    if (!(sw->switches & SW_PB))
-        memset(sw->mem, sw->data, 32);
-    else
-        sw->mem[sw->ptr] = sw->data;
+	if (sw->switches & SW_RD)
+		return;
+	/* This next bit really hasppens with the sweep not instantly but this
+	   will do for the moment TODO */
+	if (!(sw->switches & SW_PB))
+		memset(sw->mem, sw->data, 32);
+	else
+		sw->mem[sw->ptr] = sw->data;
 }
 
 void scopewriter_write(struct scopewriter *sw, uint8_t byte)
 {
-    sw->data = byte;
-    sw_data_update(sw);
+	sw->data = byte;
+	sw_data_update(sw);
 }
 
 
@@ -238,54 +238,54 @@ void scopewriter_write(struct scopewriter *sw, uint8_t byte)
 
 void scopewriter_switches(struct scopewriter *sw, uint8_t bit, uint8_t val)
 {
-    uint8_t delta;
-    uint8_t switches = sw->switches & ~bit;
-    if (val)
-    	switches |= bit;
+	uint8_t delta;
+	uint8_t switches = sw->switches & ~bit;
+	if (val)
+		switches |= bit;
 
-    delta = sw->switches ^ switches;
-    /* Really this is a hex 32bit shift register (TMS3112NC) */
-    if (delta & SW_LOAD & switches) {
-        sw->ptr++;
-        sw->ptr &= 31;
-    }
-    sw->switches = switches;
+	delta = sw->switches ^ switches;
+	/* Really this is a hex 32bit shift register (TMS3112NC) */
+	if (delta & SW_LOAD & switches) {
+		sw->ptr++;
+		sw->ptr &= 31;
+	}
+	sw->switches = switches;
 }
 
 uint32_t *scopewriter_get_raster(struct scopewriter *sw)
 {
-    unsigned int i;
-    uint8_t byte;
+	unsigned int i;
+	uint8_t byte;
 
-    sw_data_update(sw);
+	sw_data_update(sw);
 
-    for (i = 0; i < 32; i++) {
-        if (sw->switches & SW_PB)
-            byte = sw->mem[sw->ptr];
-        else
-            byte = sw->mem[i];
-        sw_raster(sw, i, byte & 0x3F);
-    }
-    return sw->raster;
+	for (i = 0; i < 32; i++) {
+		if (sw->switches & SW_PB)
+			byte = sw->mem[sw->ptr];
+		else
+			byte = sw->mem[i];
+		sw_raster(sw, i, byte & 0x3F);
+	}
+	return sw->raster;
 }
 
 struct scopewriter *scopewriter_create(void)
 {
-    struct scopewriter *sw = malloc(sizeof(struct scopewriter));
+	struct scopewriter *sw = malloc(sizeof(struct scopewriter));
 
-    if (sw == NULL) {
-        fprintf(stderr, "Out of memory.\n");
-        exit(1);
-    }
-    sw->ptr = 0;
-    sw->data = 'A';
-    sw->switches = SW_RD;
-    sw_data_update(sw);
-    scopewriter_get_raster(sw);
-    return sw;
+	if (sw == NULL) {
+		fprintf(stderr, "Out of memory.\n");
+		exit(1);
+	}
+	sw->ptr = 0;
+	sw->data = 'A';
+	sw->switches = SW_RD;
+	sw_data_update(sw);
+	scopewriter_get_raster(sw);
+	return sw;
 }
 
 void scopewriter_free(struct scopewriter *sw)
 {
-    free(sw);
+	free(sw);
 }

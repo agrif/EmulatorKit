@@ -1170,7 +1170,7 @@ static void z8_execute_one(struct z8 *z8)
 			case 0x82:	/* LDE r,Irr */
 				r = z8_read_code(z8, z8->pc++);
 				setwreg(z8, r >> 4,
-				    z8_read_data(z8, getrr(z8, r & 0xF)));
+					z8_read_data(z8, getrr(z8, r & 0xF)));
 				z8->cycles += 12;
 				break;
 			case 0x83:	/* LDEI Ir,Irr*/

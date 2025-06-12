@@ -441,7 +441,7 @@ int main(int argc, char *argv[])
 		bank_mask = 0x03;
 
 	romsize = romload(rom_path, rom, 0x0800);
-        if (romsize != 0x0800) {
+	if (romsize != 0x0800) {
 		fprintf(stderr, "osi500: invalid ROM size '%s'.\n", rom_path);
 		exit(EXIT_FAILURE);
 	}

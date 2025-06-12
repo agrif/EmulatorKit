@@ -8,34 +8,34 @@
 #define PS2_BUFSIZ 16
 
 struct ps2 {
-    unsigned int clock_in;
-    unsigned int clock_out;
-    unsigned int data_in;
-    unsigned int data_out;
+	unsigned int clock_in;
+	unsigned int clock_out;
+	unsigned int data_in;
+	unsigned int data_out;
 
-    int (*state)(struct ps2 *ps2, int);
-    unsigned int step;
-    unsigned int count;
-    unsigned int wait;
+	int (*state)(struct ps2 *ps2, int);
+	unsigned int step;
+	unsigned int count;
+	unsigned int wait;
 
-    unsigned int rxstate;
+	unsigned int rxstate;
 
-    uint8_t last_sent;
-    uint16_t receive;
-    uint16_t send;
+	uint8_t last_sent;
+	uint16_t receive;
+	uint16_t send;
 
-    unsigned int busy;
-    uint8_t rbuffer[PS2_BUFSIZ];
-    unsigned int rbufptr;
-    uint8_t buffer[PS2_BUFSIZ];
-    unsigned int bufptr;
-    unsigned int replymode;
-    unsigned int disabled;
+	unsigned int busy;
+	uint8_t rbuffer[PS2_BUFSIZ];
+	unsigned int rbufptr;
+	uint8_t buffer[PS2_BUFSIZ];
+	unsigned int bufptr;
+	unsigned int replymode;
+	unsigned int disabled;
 
-    unsigned int divider;
+	unsigned int divider;
 
-    unsigned int trace;
-    uint32_t window;
+	unsigned int trace;
+	uint32_t window;
 };
 
 #endif

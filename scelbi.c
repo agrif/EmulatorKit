@@ -220,7 +220,7 @@ static void machine_halted(void)
 	char buf[256];
 	uint16_t breakpt;
 
-      retry:
+retry:
 	printf("H.");
 	fgets(buf, 256, stdin);
 	if (*buf == '?' || *buf == 'h') {
@@ -237,7 +237,7 @@ static void machine_halted(void)
 "t           - trace off\n"
 "w oooo oo   - write a memory location\n"
 "x oooo      - jam a jump to oooo into the machine\n");
-	        return;
+		return;
 	}
 
 	if (*buf == 'r') {
@@ -261,8 +261,8 @@ static void machine_halted(void)
 	if (*buf == 'i') {
 		uint8_t jambuf[3];
 		int len =
-		    sscanf(buf, "i %hho %hho %hho", jambuf, jambuf + 1,
-			   jambuf + 2);
+			sscanf(buf, "i %hho %hho %hho", jambuf, jambuf + 1,
+			       jambuf + 2);
 		i8008_stuff(cpu, jambuf, len);
 		return;
 	}

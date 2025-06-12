@@ -787,10 +787,10 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 	texture =
-	    SDL_CreateTexture(render,
-			      SDL_PIXELFORMAT_ARGB8888,
-			      SDL_TEXTUREACCESS_STREAMING,
-			      COLS * CWIDTH, ROWS * CHEIGHT);
+		SDL_CreateTexture(render,
+				  SDL_PIXELFORMAT_ARGB8888,
+				  SDL_TEXTUREACCESS_STREAMING,
+				  COLS * CWIDTH, ROWS * CHEIGHT);
 	if (texture == NULL) {
 		fprintf(stderr,
 			"sorceror: unable to create texture: %s\n",

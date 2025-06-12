@@ -642,9 +642,9 @@ int main(int argc, char *argv[])
 	}
 	ppide_reset(ppide);
 	if (ppath) {
-	        pprop = pprop_create(ppath);
-	        pprop_set_input(pprop, 0);
-        	pprop_trace(pprop, trace & TRACE_PROP);
+		pprop = pprop_create(ppath);
+		pprop_set_input(pprop, 0);
+		pprop_trace(pprop, trace & TRACE_PROP);
 	}
 
 

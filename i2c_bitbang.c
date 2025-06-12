@@ -31,7 +31,7 @@
 /* States for the i2c protocol */
 typedef enum {
 	IDLE = 1,  /* Waiting for start condition to be met */
-	ID,				 /* Receiving first input byte identifying target i2c device and read/write direction */
+	ID,        /* Receiving first input byte identifying target i2c device and read/write direction */
 	DATA_IN,   /* Data being sent *to* the i2c device */
 	DATA_OUT,  /* Data being sent *from* the i2c device */
 } I2C_STATE;
@@ -130,8 +130,8 @@ uint8_t i2c_read(struct i2c_bus *i2c) {
  */
 static uint8_t i2c_op(struct i2c_bus *i2c, I2C_OP op, uint8_t data) {
 	return (i2c->current == NULL) ?
-	        0xFF :
-	        i2c->current->cb(i2c->current->device, op, data);
+		0xFF :
+		i2c->current->cb(i2c->current->device, op, data);
 }
 
 /* i2c_byte

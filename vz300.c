@@ -402,7 +402,7 @@ uint8_t m6847_video_read(struct m6847 *video, uint16_t addr, uint8_t *cfg)
 	if (c & 0x80)
 		*cfg |= M6847_AS;
 	else
-               *cfg &= ~M6847_AS;
+		*cfg &= ~M6847_AS;
 
 	if (c & 0x40)
 		*cfg |= M6847_INV;

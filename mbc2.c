@@ -376,12 +376,12 @@ static void ios_tx(uint8_t val)
 		break;
 	case 0x0A:
 		ios_track = ios_buf[0] + (((uint16_t)ios_buf[1]) << 8);
-                if (trace & TRACE_DISK)
+		if (trace & TRACE_DISK)
 			fprintf(stderr, "Track now %d.\n", ios_track);
 		break;
 	case 0x0B:
 		ios_sector = ios_buf[0];
-                if (trace & TRACE_DISK)
+		if (trace & TRACE_DISK)
 			fprintf(stderr, "Sector now %d.\n", ios_sector);
 		break;
 	case 0x0C:
@@ -391,11 +391,11 @@ static void ios_tx(uint8_t val)
 		if (ios_buf[0] < 3) {
 			bank = ios_buf[0];
 			/* 0 1 2 map to 0 2 3 */
-	                if (trace & TRACE_BANK)
+			if (trace & TRACE_BANK)
 				fprintf(stderr, "Bank set to %d: physical ", bank);
 			if (bank)
 				bank++;
-	                if (trace & TRACE_BANK)
+			if (trace & TRACE_BANK)
 				fprintf(stderr, "%d.\n", bank);
 		}
 		break;

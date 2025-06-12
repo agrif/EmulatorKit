@@ -24,12 +24,12 @@
  */
 
 struct mits1_uart {
-    uint8_t status;
-    uint8_t config;
-    uint8_t rxchar;
-    uint8_t inint;
-    uint8_t trace;
-    struct serial_device *dev;
+	uint8_t status;
+	uint8_t config;
+	uint8_t rxchar;
+	uint8_t inint;
+	uint8_t trace;
+	struct serial_device *dev;
 };
 
 
