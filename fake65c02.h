@@ -1,6 +1,6 @@
 /* LICENSING NOTICE:
 
-	This file contains changes incorporated from the non public domain 
+	This file contains changes incorporated from the non public domain
 	Commander X16 emulator.
 
 	However, the fake6502 code in their repository is still marked public domain!
@@ -238,7 +238,7 @@ typedef unsigned int uint32;
 ushort pc;
 uint8 sp, a, x, y, status;
 /*helper variables*/
-uint32 instructions = 0; 
+uint32 instructions = 0;
 uint32 clockticks6502 = 0;
 uint32 clockgoal6502 = 0;
 ushort oldpc, ea, reladdr, value, result;
@@ -253,9 +253,9 @@ void hookexternal(void *funcptr);
 #else
 static ushort pc;
 static uint8 sp, a, x, y, status;
-static uint32 instructions = 0; 
+static uint32 instructions = 0;
 static uint32 clockticks6502 = 0;
-static uint32 clockgoal6502 = 0; 
+static uint32 clockgoal6502 = 0;
 static ushort oldpc, ea, reladdr, value, result;
 static uint8 opcode, waiting6502 = 0;
 #endif
@@ -462,10 +462,10 @@ static void and(void) {
     penaltyop = 1;
     value = getvalue();
     result = (ushort)a & value;
-   
+
     zerocalc(result);
     signcalc(result);
-   
+
     saveaccum(result);
 }
 
@@ -476,7 +476,7 @@ static void asl(void) {
     carrycalc(result);
     zerocalc(result);
     signcalc(result);
-   
+
     putvalue(result);
 }
 
@@ -594,7 +594,7 @@ static void cmp(void) {
     penaltyop = 1;
     value = getvalue();
     result = (ushort)a - value;
-   
+
     if (a >= (uint8)(value & 0x00FF)) setcarry();
         else clearcarry();
     if (a == (uint8)(value & 0x00FF)) setzero();
@@ -605,7 +605,7 @@ static void cmp(void) {
 static void cpx(void) {
     value = getvalue();
     result = (ushort)x - value;
-   
+
     if (x >= (uint8)(value & 0x00FF)) setcarry();
         else clearcarry();
     if (x == (uint8)(value & 0x00FF)) setzero();
@@ -616,7 +616,7 @@ static void cpx(void) {
 static void cpy(void) {
     value = getvalue();
     result = (ushort)y - value;
-   
+
     if (y >= (uint8)(value & 0x00FF)) setcarry();
         else clearcarry();
     if (y == (uint8)(value & 0x00FF)) setzero();
@@ -627,23 +627,23 @@ static void cpy(void) {
 static void dec(void) {
     value = getvalue();
     result = value - 1;
-   
+
     zerocalc(result);
     signcalc(result);
-   
+
     putvalue(result);
 }
 
 static void dex(void) {
     x--;
-   
+
     zerocalc(x);
     signcalc(x);
 }
 
 static void dey(void) {
     y--;
-   
+
     zerocalc(y);
     signcalc(y);
 }
@@ -652,33 +652,33 @@ static void eor(void) {
     penaltyop = 1;
     value = getvalue();
     result = (ushort)a ^ value;
-   
+
     zerocalc(result);
     signcalc(result);
-   
+
     saveaccum(result);
 }
 
 static void inc(void) {
     value = getvalue();
     result = value + 1;
-   
+
     zerocalc(result);
     signcalc(result);
-   
+
     putvalue(result);
 }
 
 static void inx(void) {
     x++;
-   
+
     zerocalc(x);
     signcalc(x);
 }
 
 static void iny(void) {
     y++;
-   
+
     zerocalc(y);
     signcalc(y);
 }
@@ -697,7 +697,7 @@ static void lda(void) {
     penaltyop = 1;
     value = getvalue();
     a = (uint8)(value & 0x00FF);
-   
+
     zerocalc(a);
     signcalc(a);
 }
@@ -706,7 +706,7 @@ static void ldx(void) {
     penaltyop = 1;
     value = getvalue();
     x = (uint8)(value & 0x00FF);
-   
+
     zerocalc(x);
     signcalc(x);
 }
@@ -715,7 +715,7 @@ static void ldy(void) {
     penaltyop = 1;
     value = getvalue();
     y = (uint8)(value & 0x00FF);
-   
+
     zerocalc(y);
     signcalc(y);
 }
@@ -723,12 +723,12 @@ static void ldy(void) {
 static void lsr(void) {
     value = getvalue();
     result = value >> 1;
-   
+
     if (value & 1) setcarry();
         else clearcarry();
     zerocalc(result);
     signcalc(result);
-   
+
     putvalue(result);
 }
 
@@ -749,10 +749,10 @@ static void ora(void) {
     penaltyop = 1;
     value = getvalue();
     result = (ushort)a | value;
-   
+
     zerocalc(result);
     signcalc(result);
-   
+
     saveaccum(result);
 }
 
@@ -766,7 +766,7 @@ static void php(void) {
 
 static void pla(void) {
     a = pull_6502_8();
-   
+
     zerocalc(a);
     signcalc(a);
 }
@@ -778,23 +778,23 @@ static void plp(void) {
 static void rol(void) {
     value = getvalue();
     result = (value << 1) | (status & FLAG_CARRY);
-   
+
     carrycalc(result);
     zerocalc(result);
     signcalc(result);
-   
+
     putvalue(result);
 }
 
 static void ror(void) {
     value = getvalue();
     result = (value >> 1) | ((status & FLAG_CARRY) << 7);
-   
+
     if (value & 1) setcarry();
         else clearcarry();
     zerocalc(result);
     signcalc(result);
-   
+
     putvalue(result);
 }
 
@@ -818,8 +818,8 @@ static void sbc(void) {
      	value = getvalue(); B = value; value = value ^ 0x00FF;
     	result_dec = (ushort)a + value + C;
 		/*Both Cmos and Nmos*/
-    	carrycalc(result_dec); 
-    	overflowcalc(result_dec, a, value); 
+    	carrycalc(result_dec);
+    	overflowcalc(result_dec, a, value);
 		/*SEQUENCE 4 IS CMOS ONLY*/
     	AL = (A & 0x0F) - (B & 0x0F) + C - 1; /*4a*/
     	A = A - B + C - 1; /*4b*/
@@ -866,28 +866,28 @@ static void sty(void) {
 
 static void tax(void) {
     x = a;
-   
+
     zerocalc(x);
     signcalc(x);
 }
 
 static void tay(void) {
     y = a;
-   
+
     zerocalc(y);
     signcalc(y);
 }
 
 static void tsx(void) {
     x = sp;
-   
+
     zerocalc(x);
     signcalc(x);
 }
 
 static void txa(void) {
     a = x;
-   
+
     zerocalc(a);
     signcalc(a);
 }
@@ -898,7 +898,7 @@ static void txs(void) {
 
 static void tya(void) {
     a = y;
-   
+
     zerocalc(a);
     signcalc(a);
 }
@@ -941,7 +941,7 @@ static void phx(void) {
 
 static void plx(void) {
     x = pull_6502_8();
-   
+
     zerocalc(x);
     signcalc(x);
 }
@@ -952,7 +952,7 @@ static void phy(void) {
 
 static void ply(void) {
     y = pull_6502_8();
-  
+
     zerocalc(y);
     signcalc(y);
 }
@@ -1139,7 +1139,7 @@ void irq6502(void) {
 		pc = (ushort)read6502(0xFFFE) | ((ushort)read6502(0xFFFF) << 8);
 		waiting6502 = 0;
 	}
-	
+
 }
 
 uint8 callexternal = 0;
@@ -1184,7 +1184,7 @@ uint32 step6502(void) {
     clockticks6502 += ticktable[opcode];
     /*The following line goes commented out in Mike Chamber's usage of the 6502 emulator for MOARNES*/
     if (penaltyop && penaltyaddr) clockticks6502++;
-    /*clockgoal6502 = clockticks6502; irrelevant.*/ 
+    /*clockgoal6502 = clockticks6502; irrelevant.*/
 
     instructions++;
 
@@ -1202,7 +1202,7 @@ void hookexternal(void (*funcptr)(void)) {
 /*
 	Check all changes against
 	http://6502.org/tutorials/65c02opcodes.html
-	and 
+	and
 	https://github.com/commanderx16/x16-emulator
 
 	The commander X16 emulator has bugs, but it seems to be reasonably solid.
