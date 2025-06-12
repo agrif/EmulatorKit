@@ -40,18 +40,18 @@ typedef byte (*Z180DataIn) 	(int param, ushort address);
 typedef void (*Z180DataOut)	(int param, ushort address, byte data);
 
 
-/** 
+/**
  * A Z180 register set.
  * An union is used since we want independent access to the high and low bytes of the 16-bit registers.
  */
-typedef union 
+typedef union
 {
 	/** Word registers. */
 	struct
 	{
 		ushort AF, BC, DE, HL, IX, IY, SP;
 	} wr;
-	
+
 	/** Byte registers. Note that SP can't be accessed partially. */
 	struct
 	{
@@ -90,15 +90,15 @@ typedef struct
 	byte	IFF2;		/**< Interrupt Flipflop 2 */
 	byte	IM;		/**< Instruction mode */
 	byte	M1;		/**< M1 line state (only for ifetch) */
-	
+
 	Z180DataIn	memRead;
 	Z180DataOut	memWrite;
 	int		memParam;
-	
+
 	Z180DataIn	ioRead;
 	Z180DataOut	ioWrite;
 	int		ioParam;
-	
+
 	byte		halted;
 	unsigned	tstates;
 

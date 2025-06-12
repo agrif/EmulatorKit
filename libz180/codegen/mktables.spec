@@ -15,7 +15,7 @@
 	ctx->tstates += 5;
 	signed char displacement = read8(ctx, ctx->PC++);
 	BR.A = doArithmetic(ctx, read8(ctx, WR.%2 + displacement), F1_%1, F2_%1);
-	
+
 (ADC|SBC|ADD|SUB) A,n
 	BR.A = doArithmetic(ctx, read8(ctx, ctx->PC++), F1_%1, F2_%1);
 
@@ -72,8 +72,8 @@ BIT ([0-7]),\((IX|IY)\+d\)
 	ctx->tstates += 2;
 	signed char off = read8(ctx, ctx->PC++);
 	write8(ctx, WR.%3 + off, doSetRes(ctx, SR_%1, %2, read8(ctx, WR.%3 + off)));
-	
-	
+
+
 #
 # Jumps and calls
 #
@@ -86,16 +86,16 @@ CALL (C|M|NZ|NC|P|PE|PO|Z)?,?\(nn\)
 		doPush(ctx, ctx->PC);
 		ctx->PC = addr;
 	}
-	
+
 JP \((HL|IX|IY)\)
 	ctx->PC = WR.%1;
-	
+
 JP (C|M|NZ|NC|P|PE|PO|Z)?,?\(nn\)
 	ushort addr = read16(ctx, ctx->PC);
 	ctx->PC += 2;
 	if (condition(ctx, C_%1))
 		ctx->PC = addr;
-	
+
 JR (C|NZ|NC|Z)?,?\(PC\+e\)
 	int off = doComplement(read8(ctx, ctx->PC++));
 	if (condition(ctx, C_%1))
@@ -107,8 +107,8 @@ JR (C|NZ|NC|Z)?,?\(PC\+e\)
 RETI
 	ctx->IFF1 = ctx->IFF2;
 	ctx->tstates += 8;
-	%RET		
-		
+	%RET
+
 RETN
 	ctx->IFF1 = ctx->IFF2;
 	%RET
@@ -118,11 +118,11 @@ RET (C|M|NZ|NC|P|PE|PO|Z)
 	ctx->tstates += 1;
 	if (condition(ctx, C_%1))
 		ctx->PC = doPop(ctx);
-		
+
 RET
 	ctx->PC = doPop(ctx);
 
-	
+
 DJNZ \(PC\+e\)
 	ctx->tstates += 1;
 	signed char off = read8(ctx, ctx->PC++);
@@ -138,8 +138,8 @@ RST (0|8|10|18|20|28|30|38)H
 	ctx->tstates += 1;
 	doPush(ctx, ctx->PC);
 	ctx->PC = 0x0%1;
-	
-	
+
+
 #
 # Misc
 #
@@ -157,10 +157,10 @@ CPL
 	BR.A = ~BR.A;
 	SETFLAG(F_H | F_N);
 	adjustFlags(ctx, BR.A);
-	
+
 DAA
 	doDAA(ctx);
-	
+
 EX \(SP\),(HL|IX|IY)
 	ctx->tstates += 3;
 	ushort tmp = read16(ctx, WR.SP);
@@ -178,15 +178,15 @@ EX DE,HL
 	WR.HL = tmp;
 
 EXX
-	ushort tmp;	
+	ushort tmp;
 	tmp = ctx->R1.wr.BC;
 	ctx->R1.wr.BC = ctx->R2.wr.BC;
-	ctx->R2.wr.BC = tmp;	
-	
+	ctx->R2.wr.BC = tmp;
+
 	tmp = ctx->R1.wr.DE;
 	ctx->R1.wr.DE = ctx->R2.wr.DE;
-	ctx->R2.wr.DE = tmp;	
-	
+	ctx->R2.wr.DE = tmp;
+
 	tmp = ctx->R1.wr.HL;
 	ctx->R1.wr.HL = ctx->R2.wr.HL;
 	ctx->R2.wr.HL = tmp;
@@ -205,16 +205,16 @@ CP \((IX|IY)\+d\)
 	ctx->tstates += 5;
 	signed char displacement = read8(ctx, ctx->PC++);
 	byte val = read8(ctx, WR.%1 + displacement);
-	doArithmetic(ctx, val, 0, 1);	
+	doArithmetic(ctx, val, 0, 1);
 	adjustFlags(ctx, val);
 
 CP (A|B|C|D|E|H|L|IXh|IXl|IYh|IYl)
-	doArithmetic(ctx, BR.%1, 0, 1);	
+	doArithmetic(ctx, BR.%1, 0, 1);
 	adjustFlags(ctx, BR.%1);
 
 CP n
 	byte val = read8(ctx, ctx->PC++);
-	doArithmetic(ctx, val, 0, 1);	
+	doArithmetic(ctx, val, 0, 1);
 	adjustFlags(ctx, val);
 
 CPDR
@@ -275,7 +275,7 @@ CPI
 	signed char off = read8(ctx, ctx->PC++);
 	byte value = read8(ctx, WR.%2 + off);
 	write8(ctx, WR.%2 + off, doIncDec(ctx, value, ID_%1));
-	
+
 (INC|DEC) (A|B|C|D|E|H|L|IXh|IXl|IYh|IYl)
 	BR.%2 = doIncDec(ctx, BR.%2, ID_%1);
 
@@ -308,7 +308,7 @@ IN (A|B|C|D|E|F|H|L),\(C\)
 	adjustFlags(ctx, BR.%1);
 
 IN A,\(n\)
-	byte port = read8(ctx, ctx->PC++);	
+	byte port = read8(ctx, ctx->PC++);
 	BR.A = ioRead(ctx, BR.A << 8 | port);
 
 IN0 (A|B|C|D|E|F|H|L),\(n\)
@@ -368,21 +368,21 @@ LD \(HL\),(B|C|D|E|H|L)
 
 LD \(HL\),n
 	write8(ctx, WR.HL, read8(ctx, ctx->PC++));
-	
+
 LD \((IX|IY)\+d\),(A|B|C|D|E|H|L)
 	ctx->tstates += 5;
 	write8(ctx, WR.%1 + (signed char) read8(ctx, ctx->PC++), BR.%2);
-	
+
 LD \((IX|IY)\+d\),n
 	ctx->tstates += 2;
 	signed char offset = read8(ctx, ctx->PC++);
 	byte n = read8(ctx, ctx->PC++);
 	write8(ctx, WR.%1 + offset, n);
-	
+
 LD \(nn\),A
 	write8(ctx, read16(ctx, ctx->PC), BR.A);
 	ctx->PC += 2;
-	
+
 LD (BC|DE|HL|IX|IY|SP),(BC|DE|HL|IX|IY|SP)
 	ctx->tstates += 2;
 	WR.%1 = WR.%2;
@@ -390,7 +390,7 @@ LD (BC|DE|HL|IX|IY|SP),(BC|DE|HL|IX|IY|SP)
 LD \(nn\),(BC|DE|HL|IX|IY|SP)
 	write16(ctx, read16(ctx, ctx->PC), WR.%1);
 	ctx->PC += 2;
-	
+
 LD A,\((BC|DE)\)
 	BR.A = read8(ctx, WR.%1);
 
@@ -404,7 +404,7 @@ LD (A|B|C|D|E|H|L),\((IX|IY)\+d\)
 LD (A|B|C|D|E|H|L),\(nn\)
 	BR.%1 = read8(ctx, read16(ctx, ctx->PC));
 	ctx->PC += 2;
-	
+
 LD (A|B|C|D|E|H|L|IXh|IXl|IYh|IYl),(A|B|C|D|E|H|L|IXh|IXl|IYh|IYl)
 	BR.%1 = BR.%2;
 
@@ -412,14 +412,14 @@ LD (A|B|C|D|E|H|L),(SL|SR)A \((IX|IY)\+d\)
 	ctx->tstates += 2;
 	signed char off = read8(ctx, ctx->PC++);
 	BR.%1 = do%2(ctx, read8(ctx, WR.%3 + off), 1);
-	write8(ctx, WR.%3 + off, BR.%1);	
-	
+	write8(ctx, WR.%3 + off, BR.%1);
+
 LD (A|B|C|D|E|H|L),(SL|SR)L \((IX|IY)\+d\)
 	ctx->tstates += 2;
 	signed char off = read8(ctx, ctx->PC++);
 	BR.%1 = do%2(ctx, read8(ctx, WR.%3 + off), 0);
-	write8(ctx, WR.%3 + off, BR.%1);	
-	  
+	write8(ctx, WR.%3 + off, BR.%1);
+
 LD (A|B|C|D|E|H|L),(RL|RLC|RR|RRC) \((IX|IY)\+d\)
 	ctx->tstates += 2;
 	signed char off = read8(ctx, ctx->PC++);
@@ -430,7 +430,7 @@ LD (A|B|C|D|E|H|L),(SET|RES) ([0-7]),\((IX|IY)\+d\)
 	ctx->tstates += 2;
 	signed char off = read8(ctx, ctx->PC++);
 	BR.%1 = doSetRes(ctx, SR_%2, %3, read8(ctx, WR.%4 + off));
-	write8(ctx, WR.%4 + off, BR.%1);	
+	write8(ctx, WR.%4 + off, BR.%1);
 
 LD A,(I|R)
 	ctx->tstates += 1;
@@ -440,23 +440,23 @@ LD A,(I|R)
 	VALFLAG(F_PV, ctx->IFF2);
 	VALFLAG(F_S, (BR.A & 0x80) != 0);
 	VALFLAG(F_Z, (BR.A == 0));
-	
+
 LD (I|R),A
 	ctx->tstates += 1;
 	ctx->%1 = BR.A;
 
 LD (A|B|C|D|E|H|L|IXh|IXl|IYh|IYl),n
 	BR.%1 = read8(ctx, ctx->PC++);
-	
+
 LD (BC|DE|HL|SP|IX|IY),\(nn\)
 	ushort addr = read16(ctx, ctx->PC);
 	ctx->PC += 2;
-	WR.%1 = read16(ctx, addr);	
+	WR.%1 = read16(ctx, addr);
 
 LD (BC|DE|HL|SP|IX|IY),nn
 	WR.%1 = read16(ctx, ctx->PC);
 	ctx->PC += 2;
-	
+
 
 LDIR
 	%LDI
@@ -506,7 +506,7 @@ NEG
 
 NOP
 	/* NOP */
-	
+
 
 OUTI
 	ctx->tstates += 1;
@@ -595,7 +595,7 @@ OTDMR
 
 OUT \(C\),0
 	ioWrite(ctx, WR.BC, 0);
-	
+
 OUT \(C\),(A|B|C|D|E|H|L)
 	ioWrite(ctx, WR.BC, BR.%1);
 
@@ -623,7 +623,7 @@ PUSH (AF|BC|DE|HL|IX|IY)
 (RLC|RRC|RL|RR) \(HL\)
 	ctx->tstates += 1;
 	write8(ctx, WR.HL, do%1(ctx, 1, read8(ctx, WR.HL)));
-	
+
 (RLC|RRC|RL|RR) (A|B|C|D|E|H|L|IXh|IXl|IYh|IYl)
 	BR.%2 = do%1(ctx, 1, BR.%2);
 
@@ -634,8 +634,8 @@ PUSH (AF|BC|DE|HL|IX|IY)
 
 (RL|RR|RLC|RRC)A
 	BR.A = do%1(ctx, 0, BR.A);
-	
-	
+
+
 RLD
 	ctx->tstates += 4;
 	byte Ah = BR.A & 0x0f;
@@ -671,7 +671,7 @@ RRD
 
 (SL|SR)(L|A) (A|B|C|D|E|H|L|IXh|IXl|IYh|IYl)
 	BR.%3 = do%1(ctx, BR.%3, IA_%2);
-	
+
 #
 # Z180 MUL
 #
@@ -700,4 +700,3 @@ TSTIO \(C\),n
 #
 SLP
 	;
-
