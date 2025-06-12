@@ -61,7 +61,7 @@ CPUEvent_schedule( CPUEvent *thisEvent, word32 when, CPUHandler *proc )
             q -> counter -= thisEvent -> counter;
             return;
         }
-        
+
         /* Otherwise, q occurs before thisEvent, so we compensate thisEvent's counter
          * as we continue to find the ideal insertion point.
          */
@@ -96,4 +96,3 @@ CPUEvent_dispatch( void )
         thisEvent -> handler( 0 ); thisEvent = nextEvent;
     }
 }
-

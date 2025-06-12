@@ -112,16 +112,16 @@
 
 #define C_TSB8(v)	F_setZ(!(v & A.B.L));	\
 			v |= A.B.L;
-			
+
 #define C_TSB16(v)	F_setZ(!(v & A.W));	\
 			v |= A.W;
-			
+
 #define C_TRB8(v)	F_setZ(!(v & A.B.L));	\
 			v &= ~A.B.L;
-			
+
 #define C_TRB16(v)	F_setZ(!(v & A.W));	\
 			v &= ~A.W;
-			
+
 #define C_AND8(v)	A.B.L &= v;	\
 			C_SETF8(A.B.L)
 

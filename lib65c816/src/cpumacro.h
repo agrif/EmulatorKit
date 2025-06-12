@@ -347,7 +347,7 @@
 			atmp.A = D.W + M_READ(PC.A); atmp.B.B = 0; PC.W.PC++;				\
 			a.B.L = M_READ(atmp.A); a.B.H = M_READ(atmp.A+1); a.B.B = M_READ(atmp.A+2);	\
 			a.A += Y.W
-			
+
 #define O_dxi(a)	if (D.B.L) cpu_cycle_count++;					\
 			atmp.A = D.W + M_READ(PC.A) + X.W; atmp.B.B = 0; PC.W.PC++;	\
 			a.B.L = M_READ(atmp.A); a.B.H = M_READ(atmp.A+1); a.B.B = DB

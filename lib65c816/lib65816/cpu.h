@@ -48,7 +48,7 @@ typedef signed short        offset_l;   /* long offset  */
 
 
 /*
- * Union definition of a 16-bit value that can also be 
+ * Union definition of a 16-bit value that can also be
  * accessed as its component 8-bit values. Useful for
  * registers, which change sized based on teh settings
  * the M and X program status register bits.
@@ -220,4 +220,3 @@ extern void system_process(void);
 extern void wdm(void);
 
 #endif /* _CPU_H */
-
