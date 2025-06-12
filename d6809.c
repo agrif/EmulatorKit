@@ -1,4 +1,4 @@
-    /***************************************************************************
+/***************************************************************************
  * dasm09 -- Portable M6809/H6309/OS9 Disassembler                         *
  * Copyright (C) 2000  Arto Salmi                                          *
  *                                                                         *
@@ -61,8 +61,8 @@ unsigned d6309_disassemble(char *buffer, unsigned pc);
 
 uint16_t ARGWORD(uint16_t x)
 {
-    uint16_t r = e6809_read8_debug(x) << 8;
-    return r | e6809_read8_debug(x + 1);
+	uint16_t r = e6809_read8_debug(x) << 8;
+	return r | e6809_read8_debug(x + 1);
 }
 
 /*
@@ -657,330 +657,330 @@ static int os9_patch         = FALSE;
 
 static unsigned index_string(char *buffer, unsigned pc)
 {
-  byte T;
-  word W;
-  char R;
-  char buf[30];
-  unsigned PC = pc;
+	byte T;
+	word W;
+	char R;
+	char buf[30];
+	unsigned PC = pc;
 
-  T = ARGBYTE(PC); PC++;
-  R = reg[(T>>5)&0x03];
+	T = ARGBYTE(PC); PC++;
+	R = reg[(T>>5)&0x03];
 
-  if(T&0x80)
-  {
-    switch(T&0x1F)
-    {
-      case 0x00: sprintf(buf,",%c+",R);break;
+	if(T&0x80)
+	{
+		switch(T&0x1F)
+		{
+		case 0x00: sprintf(buf,",%c+",R);break;
 
-      case 0x01: sprintf(buf,",%c++",R);break;
+		case 0x01: sprintf(buf,",%c++",R);break;
 
-      case 0x02: sprintf(buf,",-%c",R);break;
+		case 0x02: sprintf(buf,",-%c",R);break;
 
-      case 0x03: sprintf(buf,",--%c",R);break;
+		case 0x03: sprintf(buf,",--%c",R);break;
 
-      case 0x04: sprintf(buf,",%c",R);break;
+		case 0x04: sprintf(buf,",%c",R);break;
 
-      case 0x05: sprintf(buf,"B,%c",R);break;
+		case 0x05: sprintf(buf,"B,%c",R);break;
 
-      case 0x06: sprintf(buf,"A,%c",R);break;
+		case 0x06: sprintf(buf,"A,%c",R);break;
 
-      case 0x08: T = ARGBYTE(PC); PC++;
-                 sprintf(buf,"$%02X,%c",T,R);
-                 break;
+		case 0x08: T = ARGBYTE(PC); PC++;
+			sprintf(buf,"$%02X,%c",T,R);
+			break;
 
-      case 0x09: W = ARGWORD(PC); PC+=2;
-                 sprintf(buf,"$%04X,%c",W,R);
-                 break;
+		case 0x09: W = ARGWORD(PC); PC+=2;
+			sprintf(buf,"$%04X,%c",W,R);
+			break;
 
-      case 0x0B: sprintf(buf,"D,%c",R);break;
+		case 0x0B: sprintf(buf,"D,%c",R);break;
 
-      case 0x0C: T = ARGBYTE(PC); PC++;
-                 sprintf(buf,"$%02X,PC",T);
-                 break;
+		case 0x0C: T = ARGBYTE(PC); PC++;
+			sprintf(buf,"$%02X,PC",T);
+			break;
 
-      case 0x0D: W = ARGWORD(PC); PC+=2;
-                 sprintf(buf,"$%04X,PC",W);
-                 break;
+		case 0x0D: W = ARGWORD(PC); PC+=2;
+			sprintf(buf,"$%04X,PC",W);
+			break;
 
-      case 0x11: sprintf(buf,"[,%c++]",R);break;
+		case 0x11: sprintf(buf,"[,%c++]",R);break;
 
-      case 0x13: sprintf(buf,"[,--%c]",R);break;
+		case 0x13: sprintf(buf,"[,--%c]",R);break;
 
-      case 0x14: sprintf(buf,"[,%c]",R);break;
+		case 0x14: sprintf(buf,"[,%c]",R);break;
 
-      case 0x15: sprintf(buf,"[B,%c]",R);break;
+		case 0x15: sprintf(buf,"[B,%c]",R);break;
 
-      case 0x16: sprintf(buf,"[A,%c]",R);break;
+		case 0x16: sprintf(buf,"[A,%c]",R);break;
 
-      case 0x18: T = ARGBYTE(PC); PC++;
-                 sprintf(buf,"[$%02X,%c]",T,R);
-                 break;
+		case 0x18: T = ARGBYTE(PC); PC++;
+			sprintf(buf,"[$%02X,%c]",T,R);
+			break;
 
-      case 0x19: W = ARGWORD(PC); PC+=2;
-                 sprintf(buf,"[$%04X,%c]",W,R);
-                 break;
+		case 0x19: W = ARGWORD(PC); PC+=2;
+			sprintf(buf,"[$%04X,%c]",W,R);
+			break;
 
-      case 0x1B: sprintf(buf,"[D,%c]",R);break;
+		case 0x1B: sprintf(buf,"[D,%c]",R);break;
 
-      case 0x1C: T = ARGBYTE(PC); PC++;
-                 sprintf(buf,"[$%02X,PC]",T);
-                 break;
+		case 0x1C: T = ARGBYTE(PC); PC++;
+			sprintf(buf,"[$%02X,PC]",T);
+			break;
 
-      case 0x1D: W = ARGWORD(PC); PC+=2;
-                 sprintf(buf,"[$%04X,PC]",W);
-                 break;
+		case 0x1D: W = ARGWORD(PC); PC+=2;
+			sprintf(buf,"[$%04X,PC]",W);
+			break;
 
-      case 0x07: if(allow_6309_codes)
-                 {
-                   sprintf(buf,"E,%c",R);
-                   break;
-                 } else goto index_error;
+		case 0x07: if(allow_6309_codes)
+			{
+				sprintf(buf,"E,%c",R);
+				break;
+			} else goto index_error;
 
-      case 0x17: if(allow_6309_codes)
-                 {
-                   sprintf(buf,"[E,%c]",R);
-                   break;
-                 } else goto index_error;
+		case 0x17: if(allow_6309_codes)
+			{
+				sprintf(buf,"[E,%c]",R);
+				break;
+			} else goto index_error;
 
-      case 0x0A: if(allow_6309_codes)
-                 {
-                   sprintf(buf,"F,%c",R);
-                   break;
-                 } else goto index_error;
+		case 0x0A: if(allow_6309_codes)
+			{
+				sprintf(buf,"F,%c",R);
+				break;
+			} else goto index_error;
 
-      case 0x1A: if(allow_6309_codes)
-                 {
-                   sprintf(buf,"[F,%c]",R);
-                   break;
-                 } else goto index_error;
+		case 0x1A: if(allow_6309_codes)
+			{
+				sprintf(buf,"[F,%c]",R);
+				break;
+			} else goto index_error;
 
-      case 0x0E: if(allow_6309_codes)
-                 {
-                   sprintf(buf,"W,%c",R);
-                   break;
-                 } else goto index_error;
+		case 0x0E: if(allow_6309_codes)
+			{
+				sprintf(buf,"W,%c",R);
+				break;
+			} else goto index_error;
 
-      case 0x1E: if(allow_6309_codes)
-                 {
-                   sprintf(buf,"[W,%c]",R);
-                   break;
-                 } else goto index_error;
+		case 0x1E: if(allow_6309_codes)
+			{
+				sprintf(buf,"[W,%c]",R);
+				break;
+			} else goto index_error;
 
-      index_error: sprintf(buf,"???"); break;
+		index_error: sprintf(buf,"???"); break;
 
-      default:   if(T==0x9F)
-                 {
-                   W = ARGWORD(PC); PC+=2;
-                   sprintf(buf,"[$%04X]",W);
-                 }
-                 else if(allow_6309_codes)
-                 {
-                   switch(T)
-                   {
-                     case 0x8F: sprintf(buf,",W");break;
-                     case 0x90: sprintf(buf,"[,W]");break;
+		default:   if(T==0x9F)
+			{
+				W = ARGWORD(PC); PC+=2;
+				sprintf(buf,"[$%04X]",W);
+			}
+			else if(allow_6309_codes)
+			{
+				switch(T)
+				{
+				case 0x8F: sprintf(buf,",W");break;
+				case 0x90: sprintf(buf,"[,W]");break;
 
-                     case 0xAF: W = ARGWORD(PC); PC+=2;
-                                sprintf(buf,"$%04X,W",W);break;
+				case 0xAF: W = ARGWORD(PC); PC+=2;
+					sprintf(buf,"$%04X,W",W);break;
 
-                     case 0xB0: W = ARGWORD(PC); PC+=2;
-                                sprintf(buf,"[$%04X,W]",W);break;
+				case 0xB0: W = ARGWORD(PC); PC+=2;
+					sprintf(buf,"[$%04X,W]",W);break;
 
-                     case 0xCF: sprintf(buf,",W++");break;
+				case 0xCF: sprintf(buf,",W++");break;
 
-                     case 0xD0: sprintf(buf,"[,W++]");break;
+				case 0xD0: sprintf(buf,"[,W++]");break;
 
-                     case 0xEF: sprintf(buf,",--W");break;
+				case 0xEF: sprintf(buf,",--W");break;
 
-                     case 0xF0: sprintf(buf,"[,--W]");break;
+				case 0xF0: sprintf(buf,"[,--W]");break;
 
-                     default:   sprintf(buf,"???"); break;
-                   }
-                 }
-                 else sprintf(buf,"???");
-                 break;
-    }
+				default:   sprintf(buf,"???"); break;
+				}
+			}
+			else sprintf(buf,"???");
+			break;
+		}
 
-  } else sprintf(buf,"%s,%c",off4[T&0x1F],R);
+	} else sprintf(buf,"%s,%c",off4[T&0x1F],R);
 
-  strcat(buffer,buf);
-  return(PC);
+	strcat(buffer,buf);
+	return(PC);
 }
 
 unsigned Dasm(char *buffer, unsigned pc)
 {
-  byte T,M;
-  word W;
-  char *I;
-  char buf[30];
-  unsigned PC = pc;
+	byte T,M;
+	word W;
+	char *I;
+	char buf[30];
+	unsigned PC = pc;
 
-  T = OPCODE(PC); PC++;
+	T = OPCODE(PC); PC++;
 
-  if(T==0x10)
-  {
-    T = OPCODE(PC); PC++;
-    W = (word)(T*2);
-    T = codes10[W++];
-    I = (char *)mne[T];
-    M = codes10[W];
+	if(T==0x10)
+	{
+		T = OPCODE(PC); PC++;
+		W = (word)(T*2);
+		T = codes10[W++];
+		I = (char *)mne[T];
+		M = codes10[W];
 
-    if( (T==_swi2) && (os9_patch==TRUE) )
-    {
-      T = OPCODE(PC); PC++;
-      sprintf(buffer,"OS9 %s",os9_codes[T]);
-      return(PC-pc);
-    }
+		if( (T==_swi2) && (os9_patch==TRUE) )
+		{
+			T = OPCODE(PC); PC++;
+			sprintf(buffer,"OS9 %s",os9_codes[T]);
+			return(PC-pc);
+		}
 
-  }
-  else if(T==0x11)
-  {
-    T = OPCODE(PC); PC++;
-    W = (word)(T*2);
-    T = codes11[W++];
-    I = (char *)mne[T];
-    M = codes11[W];
-  }
-  else
-  {
-    W = (word)(T*2);
-    T = codes[W++];
-    I = (char *)mne[T];
-    M = codes[W];
-  }
+	}
+	else if(T==0x11)
+	{
+		T = OPCODE(PC); PC++;
+		W = (word)(T*2);
+		T = codes11[W++];
+		I = (char *)mne[T];
+		M = codes11[W];
+	}
+	else
+	{
+		W = (word)(T*2);
+		T = codes[W++];
+		I = (char *)mne[T];
+		M = codes[W];
+	}
 
-  switch(M)
-  {
-    case _nom: sprintf(buffer,"Invalid");break;
+	switch(M)
+	{
+	case _nom: sprintf(buffer,"Invalid");break;
 
-    case _imp: sprintf(buffer,"%s", I);break;
+	case _imp: sprintf(buffer,"%s", I);break;
 
-    case _imb: T = ARGBYTE(PC); PC++;
-               sprintf(buffer,"%s #$%02X", I, T);
-               break;
+	case _imb: T = ARGBYTE(PC); PC++;
+		sprintf(buffer,"%s #$%02X", I, T);
+		break;
 
-    case _imw: W = ARGWORD(PC); PC+=2;
-               sprintf(buffer,"%s #$%04X",I,W);
-               break;
+	case _imw: W = ARGWORD(PC); PC+=2;
+		sprintf(buffer,"%s #$%04X",I,W);
+		break;
 
-    case _dir: T = ARGBYTE(PC); PC++;
-               sprintf(buffer,"%s <$%02X",I,T);
-               break;
+	case _dir: T = ARGBYTE(PC); PC++;
+		sprintf(buffer,"%s <$%02X",I,T);
+		break;
 
-    case _ext: W = ARGWORD(PC); PC+=2;
-               sprintf(buffer,"%s $%04X",I,W);
-               break;
+	case _ext: W = ARGWORD(PC); PC+=2;
+		sprintf(buffer,"%s $%04X",I,W);
+		break;
 
-    case _ind: sprintf(buffer,"%s ",I);
-               PC = index_string(buffer,PC);
-               break;
+	case _ind: sprintf(buffer,"%s ",I);
+		PC = index_string(buffer,PC);
+		break;
 
-    case _reb: T = ARGBYTE(PC); PC++;
-               W = (word)(PC + (signed char)T);
-               sprintf(buffer,"%s $%04X",I,W);
-               break;
+	case _reb: T = ARGBYTE(PC); PC++;
+		W = (word)(PC + (signed char)T);
+		sprintf(buffer,"%s $%04X",I,W);
+		break;
 
-    case _rew: W = ARGWORD(PC); PC+=2;
-               W += (word)PC;
-               sprintf(buffer,"%s $%04X",I,W);
-               break;
+	case _rew: W = ARGWORD(PC); PC+=2;
+		W += (word)PC;
+		sprintf(buffer,"%s $%04X",I,W);
+		break;
 
-    case _r1:  T = ARGBYTE(PC); PC++;
-               sprintf(buffer,"%s %s,%s",I,exg_tfr[T>>4],exg_tfr[T&0xF]);
-               break;
+	case _r1:  T = ARGBYTE(PC); PC++;
+		sprintf(buffer,"%s %s,%s",I,exg_tfr[T>>4],exg_tfr[T&0xF]);
+		break;
 
-    case _r2:
-    case _r3:  buf[0] = '\0';
-               T = ARGBYTE(PC); PC++;
-               if(T&0x80) strcat(buf,"PC,");
-               if(T&0x40)
-               {
-                 if(M==_r2) strcat(buf,"U,");
-                 if(M==_r3) strcat(buf,"S,");
-               }
-               if(T&0x20) strcat(buf,"Y,");
-               if(T&0x10) strcat(buf,"X,");
-               if(T&0x08) strcat(buf,"DP,");
-               if(T&0x04) strcat(buf,"B,");
-               if(T&0x02) strcat(buf,"A,");
-               if(T&0x01) strcat(buf,"CC,");
-               if(buf[0]!='\0') buf[strlen(buf)-1]='\0';
-               sprintf(buffer,"%s %s",I,buf);
-               break;
+	case _r2:
+	case _r3:  buf[0] = '\0';
+		T = ARGBYTE(PC); PC++;
+		if(T&0x80) strcat(buf,"PC,");
+		if(T&0x40)
+		{
+			if(M==_r2) strcat(buf,"U,");
+			if(M==_r3) strcat(buf,"S,");
+		}
+		if(T&0x20) strcat(buf,"Y,");
+		if(T&0x10) strcat(buf,"X,");
+		if(T&0x08) strcat(buf,"DP,");
+		if(T&0x04) strcat(buf,"B,");
+		if(T&0x02) strcat(buf,"A,");
+		if(T&0x01) strcat(buf,"CC,");
+		if(buf[0]!='\0') buf[strlen(buf)-1]='\0';
+		sprintf(buffer,"%s %s",I,buf);
+		break;
 
-    case _bd:  M = ARGBYTE(PC); PC++;
-               T = ARGBYTE(PC); PC++;
-               sprintf(buffer,"%s #$%02X,<$%02X",I,M,T);
-               break;
+	case _bd:  M = ARGBYTE(PC); PC++;
+		T = ARGBYTE(PC); PC++;
+		sprintf(buffer,"%s #$%02X,<$%02X",I,M,T);
+		break;
 
-    case _be:  T = ARGBYTE(PC); PC++;
-               W = ARGWORD(PC); PC+=2;
-               sprintf(buffer,"%s #$%02X,$%04X",I,T,W);
-               break;
+	case _be:  T = ARGBYTE(PC); PC++;
+		W = ARGWORD(PC); PC+=2;
+		sprintf(buffer,"%s #$%02X,$%04X",I,T,W);
+		break;
 
-    case _bt:  M = ARGBYTE(PC); PC++;
-               T = ARGBYTE(PC); PC++;
+	case _bt:  M = ARGBYTE(PC); PC++;
+		T = ARGBYTE(PC); PC++;
 #if 1
-               sprintf(buffer,"%s %s.%01d,<$%02X.%01d",
-               I,bit_r[M>>6],M&7,T,(M>>3)&7);
+		sprintf(buffer,"%s %s.%01d,<$%02X.%01d",
+			I,bit_r[M>>6],M&7,T,(M>>3)&7);
 #else
-               sprintf(buffer,"%s %s,%01d,%01d,$%02X",
-               I,bit_r[M>>6],(M>>3)&7,M&7,T);
+		sprintf(buffer,"%s %s,%01d,%01d,$%02X",
+			I,bit_r[M>>6],(M>>3)&7,M&7,T);
 #endif
-               break;
+		break;
 
-    case _t1:  T = ARGBYTE(PC); PC++;
-               sprintf(buffer,"%s %s+,%s+",I,block_r[T>>4],block_r[T&0xF]);
-               break;
+	case _t1:  T = ARGBYTE(PC); PC++;
+		sprintf(buffer,"%s %s+,%s+",I,block_r[T>>4],block_r[T&0xF]);
+		break;
 
-    case _t2:  T = ARGBYTE(PC); PC++;
-               sprintf(buffer,"%s %s-,%s-",I,block_r[T>>4],block_r[T&0xF]);
-               break;
+	case _t2:  T = ARGBYTE(PC); PC++;
+		sprintf(buffer,"%s %s-,%s-",I,block_r[T>>4],block_r[T&0xF]);
+		break;
 
-    case _t3:  T = ARGBYTE(PC); PC++;
-               sprintf(buffer,"%s %s+,%s",I,block_r[T>>4],block_r[T&0xF]);
-               break;
+	case _t3:  T = ARGBYTE(PC); PC++;
+		sprintf(buffer,"%s %s+,%s",I,block_r[T>>4],block_r[T&0xF]);
+		break;
 
-    case _t4:  T = ARGBYTE(PC); PC++;
-               sprintf(buffer,"%s %s,%s+",I,block_r[T>>4],block_r[T&0xF]);
-               break;
+	case _t4:  T = ARGBYTE(PC); PC++;
+		sprintf(buffer,"%s %s,%s+",I,block_r[T>>4],block_r[T&0xF]);
+		break;
 
-    case _iml: W = ARGWORD(PC); PC+=2;
-               T = ARGBYTE(PC); PC++;
-               M = ARGBYTE(PC); PC++;
-               sprintf(buffer,"%s #$%04X%02X%02X",I,W,T,M);
-               break;
+	case _iml: W = ARGWORD(PC); PC+=2;
+		T = ARGBYTE(PC); PC++;
+		M = ARGBYTE(PC); PC++;
+		sprintf(buffer,"%s #$%04X%02X%02X",I,W,T,M);
+		break;
 
-    case _bi:  T = ARGBYTE(PC); PC++;
-               sprintf(buffer,"%s #$%02X,",I,T);
-               PC = index_string(buffer,PC);
-               break;
+	case _bi:  T = ARGBYTE(PC); PC++;
+		sprintf(buffer,"%s #$%02X,",I,T);
+		PC = index_string(buffer,PC);
+		break;
 
-    default:   sprintf(buffer,"%s ERROR",I);
+	default:   sprintf(buffer,"%s ERROR",I);
 
-  }
+	}
 
-  return(PC-pc);
+	return(PC-pc);
 }
 
 unsigned d6809_disassemble(char *buffer, unsigned pc)
 {
-  codes             = m6809_codes;
-  codes10           = m6809_codes10;
-  codes11           = m6809_codes11;
-  exg_tfr           = m6809_exg_tfr;
-  allow_6309_codes  = FALSE;
+	codes             = m6809_codes;
+	codes10           = m6809_codes10;
+	codes11           = m6809_codes11;
+	exg_tfr           = m6809_exg_tfr;
+	allow_6309_codes  = FALSE;
 
-  return( Dasm(buffer, pc) );
+	return( Dasm(buffer, pc) );
 }
 
 unsigned d6309_disassemble(char *buffer, unsigned pc)
 {
-  codes             = h6309_codes;
-  codes10           = h6309_codes10;
-  codes11           = h6309_codes11;
-  exg_tfr           = h6309_exg_tfr;
-  allow_6309_codes  = TRUE;
+	codes             = h6309_codes;
+	codes10           = h6309_codes10;
+	codes11           = h6309_codes11;
+	exg_tfr           = h6309_exg_tfr;
+	allow_6309_codes  = TRUE;
 
-  return( Dasm(buffer, pc) );
+	return( Dasm(buffer, pc) );
 }
